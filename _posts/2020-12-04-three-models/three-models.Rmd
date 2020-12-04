@@ -27,6 +27,31 @@ library(ranger)
 library(future)
 ```
 
+
+```{r}
+set.seed(3000)
+data <- read_csv(here::here("data", "train.csv")) %>% 
+  select(-classification)
+
+data <- dplyr::sample_frac(data, size = 0.01)
+
+sheets <- readxl::excel_sheets(here::here("data",
+"fallmembershipreport_20192020.xlsx"))
+
+ode_schools <- readxl::read_xlsx(here::here("data",
+"fallmembershipreport_20192020.xlsx"), sheet = sheets[4])
+
+ethnicities <- ode_schools %>%
+select(attnd_schl_inst_id = `Attending School ID`,
+sch_name = `School Name`,
+contains("%")) %>%
+janitor::clean_names()
+names(ethnicities) <- gsub("x2019_20_percent", "p", names(ethnicities))
+
+data <- left_join(data, ethnicities)
+
+head(data)
+```
 # Split and Resample 
 
 ```{r, include=TRUE}
