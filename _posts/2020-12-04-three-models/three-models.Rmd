@@ -79,12 +79,7 @@ bag_model_tune <- bag_tree() %>%
   set_args(cost_complexity = tune(), min_n = tune()) %>% 
   set_engine("rpart", times = 10) 
 
-#2. Create a workflow object that combines your recipe and your bagged tree model specification.
-bagged_wflow <- workflow() %>%
-add_recipe(rec) %>%
-add_model(bag_model_tune)
-
-# 3. Tune your model with tune_grid
+# 2. Tune with tune_grid
 
 tree_grid <- grid_max_entropy(cost_complexity(), min_n(), size = 10) 
 
@@ -93,40 +88,26 @@ tictoc::tic()
 bag_tune <- tune_grid(bag_model_tune,
                       rec,
                       data_cv,
-                      grid = tree_grid,
-                      metrics = metrics_eval, 
-                      control = control_resamples(verbose = TRUE,
-                                                  save_pred = TRUE,
-                                                  extract = function(x) extract_model(x)))
-tictoc::toc()
+                      grid = tree_grid) 
+tictoc::toc() # 198.172 sec elapsed
 
-# 4. Best Estimates 
-
-show_best(bag_tune, "rmse")
+# 4. Best hyper parameters
 select_best(bag_tune, "rmse")
-
 ```
 
-## Bag Roots Function
-
-```{r, include=TRUE}
-bag_roots <- function(x){
-  x %>% 
-  select(.extracts) %>% 
-  unnest(cols = c(.extracts)) %>% 
-  mutate(models = map(.extracts,
-                  ~.x$model_df)) %>% 
-  select(-.extracts) %>% 
-  unnest(cols = c(models)) %>% 
-  mutate(root = map_chr(model,
-                     ~as.character(.x$fit$frame[1, 1]))) %>%
-  select(root)  
-}
-
-# output the feature at the root node for each of the decision trees fit.
-bag_roots(bag_tune)
-root <- bag_roots(bag_tune)
+Finalize the model
+```{r}
+final_bag_mod <- bag_model_tune %>% 
+  finalize_model(select_best(bag_tune, "rmse"))
 ```
+Test fit
+```{r}
+final_fit <- last_fit(final_bag_mod, rec, splt)
+collect_metrics(final_fit)
+```
+
+
+
 
 # Model 3: Random Forest 
 
