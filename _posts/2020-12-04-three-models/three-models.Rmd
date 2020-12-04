@@ -11,11 +11,225 @@ output:
     self_contained: false
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+library(tidymodels)
+library(tune)
+library(glmnet)
+library(baguette)
+library(parsnip)
+library(doParallel)
+library(vip)
+library(pdp)
+library(patchwork)
+library(ranger)
+library(future)
 ```
 
+# Model 1: Decision tree
+
+```{r, include=TRUE}
+# 1. Create a parsnip CART model using{rpart} for the estimation, tuning the cost complexity and minimum n for a terminal node.
+tune_model <- decision_tree() %>% 
+  set_mode("regression") %>% 
+  set_engine("rpart") %>% 
+  set_args(cost_complexity = tune(), #slide 48 W7p1
+           min_n = tune())
+
+# 2. Create a workflow object that combines your recipe and your parsnip objects.
+decisiontree_wflow <- workflow() %>%
+add_recipe(rec) %>%
+add_model(tune_model)
+
+# 3. Tune your model with tune_grid
+
+grd <- grid_regular(cost_complexity(), min_n(), levels = c(10, 5)) 
+
+metrics_eval <- metric_set(rmse, rsq)
+
+tictoc::tic()
+tune_tree <- tune_grid(tune_model, 
+                       rec, 
+                       data_cv, 
+                       grid = grd, 
+                       metrics = metrics_eval)
+tictoc::toc()
+# 291.299 sec elapsed
+
+# 4. Best Estimates 
+collect_metrics(tune_tree) %>% 
+  filter(.metric == "rmse") %>% 
+  ggplot(aes(cost_complexity, mean))+
+  geom_point(aes(color = factor(min_n)))
+
+#5. 
+grd2 <- grid_regular(cost_complexity(), min_n(), levels = c(10, 5)) 
+```
+
+# Model 2: Bagged Tree
+
+## Model and Workflow
+
+```{r, include=TRUE}
+# 1. Create a parsnip bagged tree model using{baguette}
+bag_model_tune <- bag_tree() %>% 
+  set_mode("regression") %>% 
+  set_args(cost_complexity = tune(), min_n = tune()) %>% 
+  set_engine("rpart", times = 10) 
+
+#2. Create a workflow object that combines your recipe and your bagged tree model specification.
+bagged_wflow <- workflow() %>%
+add_recipe(rec) %>%
+add_model(bag_model_tune)
+
+# 3. Tune your model with tune_grid
+
+tree_grid <- grid_max_entropy(cost_complexity(), min_n(), size = 10) 
+
+plan(multisession) 
+tictoc::tic()
+bag_tune <- tune_grid(bag_model_tune,
+                      rec,
+                      data_cv,
+                      grid = tree_grid,
+                      metrics = metrics_eval, 
+                      control = control_resamples(verbose = TRUE,
+                                                  save_pred = TRUE,
+                                                  extract = function(x) extract_model(x)))
+tictoc::toc()
+```
+
+## Best Estimates 
+
+```{r, include=TRUE}
+show_best(bag_tune, "rmse")
+select_best(bag_tune, "rmse")
+
+show_best(bag_tune, "rsq")
+select_best(bag_tune, "rsq")
+
+show_best(bag_tune, "huber_loss")
+select_best(bag_tune, "huber_loss")
+```
+
+## Bag Roots Function
+
+```{r, include=TRUE}
+bag_roots <- function(x){
+  x %>% 
+  select(.extracts) %>% 
+  unnest(cols = c(.extracts)) %>% 
+  mutate(models = map(.extracts,
+                  ~.x$model_df)) %>% 
+  select(-.extracts) %>% 
+  unnest(cols = c(models)) %>% 
+  mutate(root = map_chr(model,
+                     ~as.character(.x$fit$frame[1, 1]))) %>%
+  select(root)  
+}
+
+# output the feature at the root node for each of the decision trees fit.
+bag_roots(bag_tune)
+
+root <- bag_roots(bag_tune)
+
+```
+
+# Model 3: Random Forest 
+
+```{r, include=TRUE}
+metrics_eval <- metric_set(rmse, rsq)
+floor(sqrt(39))
+
+(cores <- parallel::detectCores())
+
+rf_def_mod <-
+  rand_forest() %>% 
+  set_engine("ranger",
+             num.threads = cores, 
+             importance = "permutation",  
+             verbose = TRUE) %>% 
+  set_mode("regression") %>% 
+  set_args(mtry = tune(),
+           trees = 1000,
+           min_n = tune()) 
+
+rf_wflow <- workflow() %>%
+  add_model(rf_def_mod) %>% 
+  add_recipe(rec)
+```
+
+## Fit
+
+```{r, include=TRUE}
+tictoc::tic()
+set.seed(3000)
+rf_def_res <- fit_resamples(
+  rf_wflow,
+  data_cv,
+  metrics = metrics_eval,
+  control = control_resamples(verbose = TRUE,
+                              save_pred = TRUE,
+                              extract = function(x) x)
+                              )
+tictoc::toc()
+```
+
+## Best Estimates 
+
+```{r, include=TRUE}
+show_best(rf_def_res, "rmse")
+
+show_best(rf_def_res, "rsq") 
+
+show_best(rf_def_res, "huber_loss")
+```
+
+
+# Make Predictions 
+
+```{r, include=TRUE}
+## Read in full test data 
+full_test <- read_csv(here::here("data", "train.csv"))
+
+head(full_test)
+```
+
+## Join full test data 
+
+```{r, include=TRUE}
+full_test_join <- left_join(full_test, ethnicities)
+```
+
+
+## Apply Fit Function to Workflow and Full Training 
+
+```{r, include=TRUE}
+tictoc::tic()
+fit_rf_workflow <- fit(rf_wflow, train)
+tictoc::toc()
+
+fit_rf_workflow
+
+sqrt(fit_rf_workflow$fit$fit$fit$prediction.error)
+```
+
+```{r, include=TRUE}
+model_3_prediction <- predict(fit_rf_workflow, new_data = full_test_join)
+
+head(model_3_prediction)
+```
+
+```{r, include=TRUE}
+pred_frame <- tibble(Id = full_test_join$id, Predict = model_3_prediction$.pred)
+
+head(pred_frame)
+```
+
+```{r, include=TRUE}
+write_csv(pred_frame, "model_3_predictions.csv")
+```
 
 
 
