@@ -52,7 +52,7 @@ We're interested in predicting the students' score based on their attributes. Th
 summary(data$score)
 ```
 
-Discription of the predictive variables:
+Description of the predictive variables:
 
 ```{r}
 summary(data)

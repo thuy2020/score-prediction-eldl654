@@ -92,7 +92,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2020-12-04"/>
   <meta property="article:created" itemprop="dateCreated" content="2020-12-04"/>
-  <meta name="article:author" content="Nora Jones"/>
+  <meta name="article:author" content="Jim - Claire - Thuy"/>
   
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Description of the dataset"/>
@@ -109,12 +109,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Description of the dataset"]},{"type":"character","attributes":{},"value":["Core features of the data, variable transformations, and data splitting process.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Nora Jones"]},{"type":"character","attributes":{},"value":["https://example.com/norajones"]}]}]},{"type":"character","attributes":{},"value":["12-04-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output"]}},"value":[{"type":"character","attributes":{},"value":["Description of the dataset"]},{"type":"character","attributes":{},"value":["Core features of the data, variable transformations, and data splitting process.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Jim - Claire - Thuy"]},{"type":"character","attributes":{},"value":["https://www.uoregon.edu/"]}]}]},{"type":"character","attributes":{},"value":["12-04-2020"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["description-of-the-dataset_files/anchor-4.2.2/anchor.min.js","description-of-the-dataset_files/bowser-1.9.3/bowser.min.js","description-of-the-dataset_files/distill-2.2.21/template.v2.js","description-of-the-dataset_files/jquery-1.11.3/jquery.min.js","description-of-the-dataset_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1418,7 +1418,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Nora Jones","authorURL":"https://example.com/norajones","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000+00:00","citationText":"Jones, 2020"}
+{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000+00:00","citationText":"Thuy, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1435,13 +1435,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-byline">
-  Nora Jones <a href="https://example.com/norajones" class="uri">https://example.com/norajones</a> 
+  Jim - Claire - Thuy <a href="https://www.uoregon.edu/" class="uri">https://www.uoregon.edu/</a> 
   
 <br/>12-04-2020
 </div>
 
 <div class="d-article">
-<h1 id="description-of-the-data-20-points">Description of the data (20 points)</h1>
+<h1 id="description-of-the-data">Description of the data</h1>
 <p>The original dataset has 39 variables. We join this data with the “Fall membership report 2019 - 2020”, which contains the information about students’ ethnicities, adding 8 more variables to make a dataset of total 47 variables.</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code># A tibble: 6 x 47
@@ -1469,74 +1469,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 #   p_asian &lt;dbl&gt;, p_native_hawaiian_pacific_islander &lt;dbl&gt;,
 #   p_black_african_american &lt;dbl&gt;, p_hispanic_latino &lt;dbl&gt;,
 #   p_white &lt;dbl&gt;, p_multiracial &lt;dbl&gt;</code></pre>
-<pre><code> [1] &quot;id&quot;                                
- [2] &quot;gndr&quot;                              
- [3] &quot;ethnic_cd&quot;                         
- [4] &quot;attnd_dist_inst_id&quot;                
- [5] &quot;attnd_schl_inst_id&quot;                
- [6] &quot;enrl_grd&quot;                          
- [7] &quot;calc_admn_cd&quot;                      
- [8] &quot;tst_bnch&quot;                          
- [9] &quot;tst_dt&quot;                            
-[10] &quot;migrant_ed_fg&quot;                     
-[11] &quot;ind_ed_fg&quot;                         
-[12] &quot;sp_ed_fg&quot;                          
-[13] &quot;tag_ed_fg&quot;                         
-[14] &quot;econ_dsvntg&quot;                       
-[15] &quot;ayp_lep&quot;                           
-[16] &quot;stay_in_dist&quot;                      
-[17] &quot;stay_in_schl&quot;                      
-[18] &quot;dist_sped&quot;                         
-[19] &quot;trgt_assist_fg&quot;                    
-[20] &quot;ayp_dist_partic&quot;                   
-[21] &quot;ayp_schl_partic&quot;                   
-[22] &quot;ayp_dist_prfrm&quot;                    
-[23] &quot;ayp_schl_prfrm&quot;                    
-[24] &quot;rc_dist_partic&quot;                    
-[25] &quot;rc_schl_partic&quot;                    
-[26] &quot;rc_dist_prfrm&quot;                     
-[27] &quot;rc_schl_prfrm&quot;                     
-[28] &quot;partic_dist_inst_id&quot;               
-[29] &quot;partic_schl_inst_id&quot;               
-[30] &quot;lang_cd&quot;                           
-[31] &quot;tst_atmpt_fg&quot;                      
-[32] &quot;grp_rpt_dist_partic&quot;               
-[33] &quot;grp_rpt_schl_partic&quot;               
-[34] &quot;grp_rpt_dist_prfrm&quot;                
-[35] &quot;grp_rpt_schl_prfrm&quot;                
-[36] &quot;score&quot;                             
-[37] &quot;ncessch&quot;                           
-[38] &quot;lat&quot;                               
-[39] &quot;lon&quot;                               
-[40] &quot;sch_name&quot;                          
-[41] &quot;p_american_indian_alaska_native&quot;   
-[42] &quot;p_asian&quot;                           
-[43] &quot;p_native_hawaiian_pacific_islander&quot;
-[44] &quot;p_black_african_american&quot;          
-[45] &quot;p_hispanic_latino&quot;                 
-[46] &quot;p_white&quot;                           
-[47] &quot;p_multiracial&quot;                     </code></pre>
-<pre><code># A tibble: 1,894 x 1
-   sch_name                         
-   &lt;chr&gt;                            
- 1 Hillside Elementary              
- 2 James Templeton Elementary School
- 3 Durham Elementary School         
- 4 West Park Elementary School      
- 5 John C Fremont Middle School     
- 6 High Lakes Elementary School     
- 7 Lincoln Middle School            
- 8 Crooked River Elementary School  
- 9 Marcola Elementary School        
-10 Stoller Middle School            
-# … with 1,884 more rows</code></pre>
 </div>
 <p>We’re interested in predicting the students’ score based on their attributes. The range of the outcome variable is as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
    1821    2419    2503    2500    2578    3080 </code></pre>
 </div>
-<p>Discription of predictive variables:</p>
+<p>Discription of the predictive variables:</p>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>       id             gndr            ethnic_cd        
  Min.   :   452   Length:1894        Length:1894       
@@ -1682,7 +1621,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li>All nominal varibales, except id variables and outcomes, are dummy coded</li>
 <li>After dummny coded, all nominal variables with nearly no variation are removed.</li>
 </ul>
-After processing the data, we are left with 1 outcome variable, 7 id variables, and 39 pridictors.
+After processing the data, we are left with 1 outcome variable, 7 id variables, and 39 predictors.
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>Data Recipe
 
@@ -1704,7 +1643,7 @@ Sparse, unbalanced variable filter removed calc_admn_cd [trained]
 Dummy variables from gndr, ethnic_cd, tst_bnch, ... [trained]
 Sparse, unbalanced variable filter removed gndr_unknown, ... [trained]</code></pre>
 </div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
