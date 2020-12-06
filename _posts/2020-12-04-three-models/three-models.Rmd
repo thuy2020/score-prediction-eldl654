@@ -165,15 +165,23 @@ predictions
 
 # Model 2: Bagged Tree
 
-## Model and Workflow
-
 ```{r, include=TRUE}
-# 1. Create a parsnip bagged tree model using{baguette}
-bag_mod_tune <- bag_tree() %>% 
+# 1. set model 
+
+bt_mod <- bag_tree() %>% 
   set_mode("regression") %>% 
   set_args(cost_complexity = tune(), min_n = tune()) %>% 
-  set_engine("rpart", times = 10) # you will almost surely need more than 10
+  set_engine("rpart", times = 50) # you will almost surely need more than 10
 
+
+# fit to $k$ folds
+tictoc::tic() 
+bt_fit1 <- fit_resamples(bt_mod,
+                       preprocessor = rec,
+                       resamples = data_cv)
+tictoc::toc() 
+
+collect_metrics(bt_fit1)
 # 2. Tune with tune_grid
 
 tree_grid <- grid_max_entropy(cost_complexity(), min_n(), size = 10) 
