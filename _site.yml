@@ -1,5 +1,5 @@
 name: "score-prediction-eldl654"
-title: "My Blog"
+title: "Score prediction"
 description: |
   My Blog
 output_dir: "docs"
@@ -9,4 +9,8 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
+    - text: "Contributors"
+      href: contributors.html
+    - icon: fa fa-rss
+      href: index.xml
 output: distill::distill_article

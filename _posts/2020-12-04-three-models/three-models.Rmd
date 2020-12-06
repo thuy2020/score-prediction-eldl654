@@ -115,32 +115,52 @@ collect_metrics(tune_tree) %>%
   geom_point(aes(color = factor(min_n)))
 
 # Check again, but remove highest one Add some jitter to avoid overlap
-collect_metrics(tune_tree) %>% 
+collect_metrics(tune_tree) %>%  
   filter(.metric == "rmse" & cost_complexity != 0.1) %>% 
   ggplot(aes(cost_complexity, mean))+
   geom_jitter(aes(color = factor(min_n)),
               height = 0, width = 0.01)
 
+# ==> this shows that we can get to rmse as small as 100.8179	. Now try to tune grid again to make it smaller
+
+grid_min_n <- tibble(min_n = 10:40)
+
+dt_tune2 <- tune_model %>% 
+  set_args(cost_complexity = 0.01)
+
+tictoc::tic()
+dt_tune_fit2 <- tune_grid(
+  dt_tune2,
+  preprocessor = rec,
+  resamples = data_cv,
+  grid = grid_min_n
+)
+tictoc::toc()
+
+# look at metric again after re-tune
+show_best(dt_tune_fit2, metric = "rmse") # hoorayy, we got a tiny bit smaller. rmse = 100.0423. Life is hard, just accept it for now. 
+
 ```
 
-This plot shows that the lowest rmse is resulted from a combation of cost_complexity = 0.01 and min_n = 30
-
+finalize the decision tree model 
 ```{r}
-#5. Using a specific values based on the plot above
-collect_metrics(tune_tree) %>% 
-  filter(cost_complexity == 0.01 & min_n == 30) %>% 
-  ggplot(aes(cost_complexity, mean))+
-  geom_point()
+# set the final model parameters
+best_params <- select_best(dt_tune_fit2, metric = "rmse")
+final_mod_dt <- finalize_model(dt_tune2, best_params)
+final_mod_dt
 
-# hmm... not sure how helpful this is
-```
+# use original `initial_split()` object
+final_fit_dt <- last_fit(final_mod_dt, 
+                         rec, 
+                         data_split)
+final_fit_dt
+# view metrics
 
-```{r}
-final_decision_mod <- tune_model %>% 
-  finalize_model(select_best(tune_tree, "rmse"))
+final_fit_dt$.metrics[[1]] # humm, why rmse still 103?? That's cheating!
 
-final_fit_decision <- last_fit(final_decision_mod, rec, data_split)
-collect_metrics(final_fit_decision)
+# prediction
+predictions <- final_fit_dt$.predictions[[1]] # not so amazing though. The prediction is quite off. Well, it's a pandemic year :( 
+predictions
 ```
 
 # Model 2: Bagged Tree
