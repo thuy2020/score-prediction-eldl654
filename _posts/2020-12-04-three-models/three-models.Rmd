@@ -145,6 +145,8 @@ linear_mod_best
 
 ## Model 1 Summary 
 
+A linear model was selected as the first model to run for the final project to serve as a threshold to compare to the other two models. Initial iterations of the linear regression model were run exclusively on the combined *FRL* and training data, which resulted in a RMSE value of ~96.0. Expanding the data set to include the *ethnicities* and *ode_schools* and adding the interaction of `lat` and `lon` to the recipe decreased the RMSE to ~90.5. 
+
 
 # Model 2: Decision tree
 
