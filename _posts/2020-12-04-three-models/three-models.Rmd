@@ -227,7 +227,12 @@ predictions <- final_fit_dt$.predictions[[1]] # not so amazing though. The predi
 predictions
 ```
 
-# Model 2: Bagged Tree
+## Summary model 2 decision tree: 
+
+
+
+
+# Model : Bagged Tree
 
 ```{r, include=TRUE}
 # 1. set model 
@@ -269,12 +274,12 @@ select_best(bag_tune, "rmse")
 # combination
 ```
 
-Finalize model 2
+Finalize model 3
 ```{r}
 final_bag_mod <- bag_mod_tune %>% 
   finalize_model(select_best(bag_tune, "rmse"))
 ```
-Test fit model 2
+Test fit model 3
 ```{r}
 final_fit_bagtree <- last_fit(final_bag_mod, rec, data_split)
 collect_metrics(final_fit_bagtree)
