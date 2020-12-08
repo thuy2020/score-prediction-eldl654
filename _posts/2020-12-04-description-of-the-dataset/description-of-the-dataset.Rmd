@@ -14,20 +14,65 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
-library(ggplot2)
 library(tidymodels)
+library(rio)
+library(reactable)
+
+theme_set(theme_minimal(15) +
+            theme(legend.position = "bottom",
+                  panel.grid.major.x = element_line(color = "gray60"),
+                  panel.grid.minor.x = element_blank(),
+                  panel.grid.major.y = element_blank())
+          )
 ```
 
 # Description of the data 
 
-The original dataset has 39 variables. We join this data with the "Fall membership report 2019 - 2020", which contains the information about students' ethnicities, adding 8 more variables to make a dataset of total 47 variables. 
+The original `training` dataset included 39 variables. We randomly sampled 7% of this dataset to reduce the total to 13,260 observations. To expand the number of predictors in our models, the following steps were taken: 
 
-```{r}
+  1. `FRL` (6 variables) and `student_count` (2 variables) imported and joined together by `ncessch` variable.
+  2. Two variables created in the `FRL` dataset: 
+  
+      + proportion of students who qualify for free and reduced lunch 
+      + proportion of students who qualify for reduced price lunch
+    
+  3. `Ethnicities` data imported 
+  4. The original 7% sample of the `training` data was joined with the `FRL` and `Ethnicities` datasets to increase the total number of variables to 55 across `3,263 observations. 
+
+```{r, include=FALSE}
+# load the given data
 set.seed(3000)
 data <- read_csv(here::here("data", "train.csv")) %>% 
   select(-classification)
 
-data <- dplyr::sample_frac(data, size = 0.01)
+data <- dplyr::sample_frac(data, size = 0.07) #trying 7% 
+
+# get freelunch data
+
+frl <- import("https://nces.ed.gov/ccd/Data/zip/ccd_sch_033_1718_l_1a_083118.zip",
+              setclass = "tbl_df")  %>% 
+  janitor::clean_names()  %>% 
+  filter(st == "OR")  %>%
+  select(ncessch, lunch_program, student_count)  %>% 
+  mutate(student_count = replace_na(student_count, 0))  %>% 
+  pivot_wider(names_from = lunch_program,
+              values_from = student_count)  %>% 
+  janitor::clean_names()  %>% 
+  mutate(ncessch = as.double(ncessch))
+
+stu_counts <- import("https://github.com/datalorax/ach-gap-variability/raw/master/data/achievement-gaps-geocoded.csv",
+                     setclass = "tbl_df")  %>% 
+  filter(state == "OR" & year == 1718)  %>% 
+  count(ncessch, wt = n)  %>% 
+  mutate(ncessch = as.double(ncessch))
+
+frl <- left_join(frl, stu_counts)
+
+frl <- frl %>% 
+ mutate(prop_frl = free_lunch_qualified / n,
+       prop_reduced_lunch = reduced_price_lunch_qualified / n)
+
+# ethnicities
 
 sheets <- readxl::excel_sheets(here::here("data",
 "fallmembershipreport_20192020.xlsx"))
@@ -42,17 +87,261 @@ contains("%")) %>%
 janitor::clean_names()
 names(ethnicities) <- gsub("x2019_20_percent", "p", names(ethnicities))
 
+# join
 data <- left_join(data, ethnicities)
-
-head(data)
+data <- left_join(data, frl)
 ```
+
+## Score Variable {.tabset .tabset-fade .tabset-pills}
+
 We're interested in predicting the students' score based on their attributes. The range of the outcome variable is as follows:
+
+### Summary
 
 ```{r}
 summary(data$score)
 ```
 
-Description of the predictive variables:
+### Distribution
+
+The distribution of of the 7% random sample of scores is a normal distribution. Additionally, there are no apparent skew or outliers. 
+
+```{r, include=TRUE}
+ggplot(data, aes(score)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  labs(x = "Score",
+       y = "Number of Observations",
+       title = "Distribution of Scores")
+```
+
+
+## Description of the remaining 54 variables 
+
+```{r, include=FALSE}
+str(data)
+```
+
+### ID Variables
+
+| **Variable ID** |  **Variable Description**    | 
+| :-------------- | :--------------------------: | 
+| `id`            | Student identifier           |
+| `attnd_dist_inst_id` | Institution identifier for the Attending District |
+| `attnd_schl_inst_id` | Institution identifier for the Attending School |
+| `partic_dist_inst_id` | Institution identifier for the Attending District |
+| `partic_schl_inst_id` | Institution identifier for the Attending School |
+| `ncessch` | School id number |
+
+### Categorical Predictor Variables 
+
+| **Variable ID** |  **Variable Description**    | 
+| :-------------- | :--------------------------: | 
+| `gndr`            | Student gender       |
+| `ethnic_cd`         | Student ethnicity       |
+| `enrl_grd`          | Student grade level       |
+| `calc_admn_cd`      | Code describing special circumstances affecting test administration |
+| `tst_bnch`          | Benchmark level of the administered test       |
+| `tst_dt`            | Test date       |
+| `migrant_ed_fg`     | Indicates student participation in a program designed to assure that migratory children receive full and appropriate opportunity to meet the state academic content and student academic achievement standards       |
+| `ind_ed_fg`         | Indicates student participation in a program designed to meet the unique educational and culturally related academic needs of American Indians       |
+| `sp_ed_fg`          | Indicates student participation in an Individualized Education Plan (IEP/IFSP)       |
+| `tag_ed_fg`         | Indicates student participation in a Talented and Gifted program       |
+| `econ_dsvntg`       | Indicates student eligibility for a Free or Reduced Lunch program       |
+| `ayp_lep`           | Indicates a student who received services or was eligible to receive services in a Limited English Proficient program       |
+| `stay_in_dist`            | Indicates that the student has been enrolled for more than 50% of the days in the school year as of the first school day in May at the district where the student is resident on the first school day in May       |
+| `stay_in_schl`      | Indicates that the student has been enrolled for more than 50% of the days in the school year as of the first school day in May at the school where the student is resident on the first school day in May      |
+| `dist_sped`         | Indicates that the student was enrolled in a district special education program during the school year and received general education classroom instruction for less than 40% of the time as of the first school day in May       |
+| `trgt_assist_fg`    | Flag indicating the record is included in Title 1 Targeted Assistance for the Adequate Yearly Progress (AYP) school performance calculations       |
+| `ayp_dist_partic`   | Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) district participation calculations       |
+| `ayp_schl_partic`   | Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) school participation calculations       |
+| `ayp_dist_prfrm`    | Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) district performance calculations       |
+| `ayp_schl_prfrm`    | Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) school performance calculations       |
+| `rc_dist_partic`    | Flag indicating the record is included in the denominator of Report Card (RC) district participation calculations       |
+| `rc_schl_partic`    | Flag indicating the record is included in the denominator of Report Card (RC) school participation calculations       |
+| `rc_dist_prfrm`     | Flag indicating the record is included in the denominator of Report Card (RC) district performance calculations       |
+| `rc_schl_prfrm`     | Flag indicating the record is included in the denominator of Report Card (RC) school participation calculations       |
+| `lang_cd`           | Test language       |
+| `tst_atmpt_fg`      | Code describing whether the test was attempted       |
+| `grp_rpt_dist_partic`  | Flag indicating the record is included in the denominator of Group Report district participation calculations       |
+| `grp_rpt_schl_inst_id` | Flag indicating the record is included in the denominator of Group Report school participation calculations       |
+| `grp_rpt_dist_prfrm`   | Flag indicating the record is included in the denominator of Group Report district performance calculations       |
+| `grp_rpt_schl_prfrm`   | Flag indicating the record is included in the denominator of Group Report school participation calculations       |
+| `sch_name`          | School name       |
+
+#### Gender Distribution
+
+```{r, include=FALSE}
+
+gndr_count <- data %>% 
+  count(gndr)
+
+gndr_plot <- ggplot(gndr_count, aes(gndr, n)) +
+  geom_col(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9) +
+  labs(x = "Gender",
+       y = "Total")
+
+```
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+gndr_plot
+```
+
+#### Ethnicity Distribution 
+
+```{r, include=FALSE}
+eth_count <- data %>% 
+  count(ethnic_cd)
+
+eth_plot <- ggplot(eth_count, aes(fct_reorder(ethnic_cd, n), n)) +
+    geom_col(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9) +
+  coord_flip() +
+  labs(x = "Ethnic Id",
+       y = "Total",
+       caption = "W = White race/non-Hispanic\n H = Hispanic ethnicity\n M = multi-racial, non-Hispanic\n A = Asian race, non-Hispanic\n B = Black/African American, non-Hispanic\n I = American Indian/Alaskan Native race, non-Hisapnic\n P = Pacific Islander, non-Hispanic")
+```
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+eth_plot
+```
+
+### Continuous Predictor Variables 
+
+| **Variable ID** |  **Variable Description**    | 
+| :-------------- | :--------------------------: | 
+| `lat`            | School latitude           |
+| `lon` | school longitude  |
+| `p_american_indian_alaska_native` | Percentage of students identified as American Indian and/or Alaska Native |
+| `p_asian` | Percentage of students identified as Asian |
+| `p_native_hawaiin_pacific_islander` | Percentage of students identified as Native Hawaiin and/or Pacific Islander |
+| `p_black_african_american` | Percentage of students identified as black and/or African American |
+| `p_hispanic_latino`            | Percentage of students identified as Hispanic and/or Latino           |
+| `p_white` | Percentage of students identified as white |
+| `p_multiracial` | Percentage of students identified as multiracial |
+| `free_lunch_qualified` | Total number of students who qualify for free lunch |
+| `reduced_price_lunch_qualified` | Total number of students who qualify for reduced price lunch |
+| `missing` |  |
+| `not_applicable`            |            |
+| `no_category_codes` |  |
+| `n` | Total number of students enrolled in the school |
+| `prop_frl` | Proportion of students who qualify for free lunch |
+| `prop_reduced_lunch` | Proportion of students who qualify for reduced price lunch |
+
+#### Distribution of Ethnicities 
+
+```{r, include=FALSE}
+
+ggplot(data, aes(p_asian)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(x = "Score",
+       y = "Ethnicity Percentage",
+       title = "Distribution of Scores")
+
+percent_hist <- function(df, x) {
+  ggplot(data, aes({{x}})) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 15) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(x = "Percentage",
+       y = "Number of Schools")
+}
+
+percent_hist(data, p_asian) +
+  labs(title = "Asian")
+
+ethnic_data_long <- data %>% 
+  pivot_longer(
+    cols = c(41:47),
+    names_to = "ethnicity",
+    names_prefix = "p_",
+    values_to = "percent"
+  )
+    
+```
+
+##### American Indian/Alaskan Native race, non-Hispanic
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_american_indian_alaska_native)
+```
+
+##### Asian, non-Hispanic
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_asian)
+```
+
+##### Black/African American, non-Hispanic
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_black_african_american)
+```
+
+##### Hispanic 
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_hispanic_latino)
+```
+
+##### Multi-racial, non-Hispanic 
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_multiracial)
+```
+
+##### Pacific Islander race, non-Hispanic
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_native_hawaiian_pacific_islander)
+```
+
+##### White 
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+percent_hist(data, p_white)
+```
+
+#### Distribution of Free and Reduced Lunch Status
+
+Distribution of the proportion of students who qualify for free lunch 
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+ggplot(ethnic_data_long, aes(prop_frl)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 15) +
+  scale_x_continuous(labels = scales::percent) +
+  facet_wrap(~ethnicity) +
+  labs(x = "Percentage",
+       y = "Number of Schools")
+```
+
+Distribution of the proportion of students who qualify for reduced price lunch 
+
+```{r, include=TRUE, fig.height=8, fig.width=11}
+ggplot(ethnic_data_long, aes(prop_reduced_lunch)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 15) +
+  scale_x_continuous(labels = scales::percent) +
+  facet_wrap(~ethnicity) +
+  labs(x = "Percentage",
+       y = "Number of Schools")
+```
 
 ```{r}
 summary(data)
@@ -86,17 +375,20 @@ We processed the varibales in the dataset through the following steps:
 
 After processing the data, we are left with 1 outcome variable, 7 id variables, and 39 predictors. 
 ```{r, include=TRUE}
-rec <- recipe(
-    formula = score ~ ., data = train 
-  ) %>%
- step_mutate(tst_dt = lubridate::mdy_hms(tst_dt)) %>%
- update_role(contains("id"), ncessch, sch_name, new_role = "id") %>%
- # step_novel(all_nominal(), -all_outcomes()) %>%
- step_unknown(all_nominal(), -all_outcomes()) %>%
- step_medianimpute(all_numeric()) %>%
- step_nzv(all_predictors(), freq_cut = 0, unique_cut = 0) %>%
- step_dummy(all_nominal(), -has_role(match = "id"), -all_outcomes()) %>%
- step_nzv(all_predictors())
+# this from model 1
+rec <- recipe(score ~ ., train) %>% 
+  step_mutate(tst_dt = as.numeric(lubridate::mdy_hms(tst_dt))) %>% 
+  update_role(contains("id"), ncessch, new_role = "id vars") %>% 
+  step_novel(all_nominal()) %>%
+  step_unknown(all_nominal()) %>%
+  step_nzv(all_predictors()) %>%
+  step_medianimpute(all_numeric(), -all_outcomes(), -has_role("id vars")) %>%
+  step_dummy(all_nominal(), -has_role("id vars")) %>%
+  step_nzv(all_predictors()) %>% 
+  step_interact(~lat:lon)
 
 prep(rec)  
+
+baked_train <- rec %>% prep() %>% bake(train)
+baked_train
 ```

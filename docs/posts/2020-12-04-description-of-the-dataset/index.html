@@ -20,9 +20,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -32,14 +32,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -48,39 +50,39 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ad0000; } /* Alert */
-code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
-code span.bn { color: #ad0000; } /* BaseN */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
-code span.ch { color: #20794d; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #5e5e5e; } /* Comment */
-code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-code span.dt { color: #ad0000; } /* DataType */
-code span.dv { color: #ad0000; } /* DecVal */
-code span.er { color: #ad0000; } /* Error */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #ad0000; } /* Float */
-code span.fu { color: #4758ab; } /* Function */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
-code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
-code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
-code span.ss { color: #20794d; } /* SpecialString */
-code span.st { color: #20794d; } /* String */
-code span.va { color: #111111; } /* Variable */
-code span.vs { color: #20794d; } /* VerbatimString */
-code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
@@ -115,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["description-of-the-dataset_files/anchor-4.2.2/anchor.min.js","description-of-the-dataset_files/bowser-1.9.3/bowser.min.js","description-of-the-dataset_files/distill-2.2.21/template.v2.js","description-of-the-dataset_files/jquery-1.11.3/jquery.min.js","description-of-the-dataset_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["description-of-the-dataset_files/anchor-4.2.2/anchor.min.js","description-of-the-dataset_files/bowser-1.9.3/bowser.min.js","description-of-the-dataset_files/distill-2.2.21/template.v2.js","description-of-the-dataset_files/figure-html5/unnamed-chunk-10-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-11-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-12-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-13-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-14-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-15-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-16-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-17-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-18-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-3-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-6-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-8-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-9-1.png","description-of-the-dataset_files/figure-html5/unnamed-chunk-9-2.png","description-of-the-dataset_files/jquery-1.11.3/jquery.min.js","description-of-the-dataset_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -2011,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000+00:00","citationText":"Thuy, 2020"}
+{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000-08:00","citationText":"Thuy, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2041,7 +2043,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1>Description of the dataset</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Core features of the data, variable transformations, and data splitting process.</p>
+<p><p>Core features of the data, variable transformations, and data splitting process.</p></p>
 </div>
 
 <div class="d-byline">
@@ -2052,59 +2054,352 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div class="d-article">
 <h1 id="description-of-the-data">Description of the data</h1>
-<p>The original dataset has 39 variables. We join this data with the “Fall membership report 2019 - 2020”, which contains the information about students’ ethnicities, adding 8 more variables to make a dataset of total 47 variables.</p>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 6 x 47
-      id gndr  ethnic_cd attnd_dist_inst… attnd_schl_inst… enrl_grd
-   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;
-1 207039 F     W                     2043              390        3
-2 249314 F     M                     2242             1139        5
-3 186812 F     W                     2242             1138        4
-4 129823 M     M                     2206             1038        5
-5  45014 F     W                     1991              278        6
-6 211101 F     W                     1976             3218        3
-# … with 41 more variables: calc_admn_cd &lt;lgl&gt;, tst_bnch &lt;chr&gt;,
-#   tst_dt &lt;chr&gt;, migrant_ed_fg &lt;chr&gt;, ind_ed_fg &lt;chr&gt;,
-#   sp_ed_fg &lt;chr&gt;, tag_ed_fg &lt;chr&gt;, econ_dsvntg &lt;chr&gt;,
-#   ayp_lep &lt;chr&gt;, stay_in_dist &lt;chr&gt;, stay_in_schl &lt;chr&gt;,
-#   dist_sped &lt;chr&gt;, trgt_assist_fg &lt;chr&gt;, ayp_dist_partic &lt;chr&gt;,
-#   ayp_schl_partic &lt;chr&gt;, ayp_dist_prfrm &lt;chr&gt;,
-#   ayp_schl_prfrm &lt;chr&gt;, rc_dist_partic &lt;chr&gt;, rc_schl_partic &lt;chr&gt;,
-#   rc_dist_prfrm &lt;chr&gt;, rc_schl_prfrm &lt;chr&gt;,
-#   partic_dist_inst_id &lt;dbl&gt;, partic_schl_inst_id &lt;dbl&gt;,
-#   lang_cd &lt;chr&gt;, tst_atmpt_fg &lt;chr&gt;, grp_rpt_dist_partic &lt;chr&gt;,
-#   grp_rpt_schl_partic &lt;chr&gt;, grp_rpt_dist_prfrm &lt;chr&gt;,
-#   grp_rpt_schl_prfrm &lt;chr&gt;, score &lt;dbl&gt;, ncessch &lt;dbl&gt;, lat &lt;dbl&gt;,
-#   lon &lt;dbl&gt;, sch_name &lt;chr&gt;, p_american_indian_alaska_native &lt;dbl&gt;,
-#   p_asian &lt;dbl&gt;, p_native_hawaiian_pacific_islander &lt;dbl&gt;,
-#   p_black_african_american &lt;dbl&gt;, p_hispanic_latino &lt;dbl&gt;,
-#   p_white &lt;dbl&gt;, p_multiracial &lt;dbl&gt;</code></pre>
-</div>
+<p>The original <code>training</code> dataset included 39 variables. We randomly sampled 7% of this dataset to reduce the total to 13,260 observations. To expand the number of predictors in our models, the following steps were taken:</p>
+<ol type="1">
+<li><p><code>FRL</code> (6 variables) and <code>student_count</code> (2 variables) imported and joined together by <code>ncessch</code> variable.</p></li>
+<li><p>Two variables created in the <code>FRL</code> dataset:</p>
+<ul>
+<li>proportion of students who qualify for free and reduced lunch</li>
+<li>proportion of students who qualify for reduced price lunch</li>
+</ul></li>
+<li><p><code>Ethnicities</code> data imported</p></li>
+<li><p>The original 7% sample of the <code>training</code> data was joined with the <code>FRL</code> and <code>Ethnicities</code> datasets to increase the total number of variables to 55 across `3,263 observations.</p></li>
+</ol>
+<h2 id="score-variable" class="tabset tabset-fade tabset-pills">Score Variable</h2>
 <p>We’re interested in predicting the students’ score based on their attributes. The range of the outcome variable is as follows:</p>
+<h3 id="summary">Summary</h3>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-   1821    2419    2503    2500    2578    3080 </code></pre>
+   1821    2420    2497    2498    2575    3550 </code></pre>
 </div>
-<p>Description of the predictive variables:</p>
+<h3 id="distribution">Distribution</h3>
+<p>The distribution of of the 7% random sample of scores is a normal distribution. Additionally, there are no apparent skew or outliers.</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<h2 id="description-of-the-remaining-54-variables">Description of the remaining 54 variables</h2>
+<h3 id="id-variables">ID Variables</h3>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Variable ID</strong></th>
+<th style="text-align: center;"><strong>Variable Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: center;">Student identifier</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>attnd_dist_inst_id</code></td>
+<td style="text-align: center;">Institution identifier for the Attending District</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>attnd_schl_inst_id</code></td>
+<td style="text-align: center;">Institution identifier for the Attending School</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>partic_dist_inst_id</code></td>
+<td style="text-align: center;">Institution identifier for the Attending District</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>partic_schl_inst_id</code></td>
+<td style="text-align: center;">Institution identifier for the Attending School</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ncessch</code></td>
+<td style="text-align: center;">School id number</td>
+</tr>
+</tbody>
+</table>
+<h3 id="categorical-predictor-variables">Categorical Predictor Variables</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Variable ID</strong></th>
+<th style="text-align: center;"><strong>Variable Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>gndr</code></td>
+<td style="text-align: center;">Student gender</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ethnic_cd</code></td>
+<td style="text-align: center;">Student ethnicity</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>enrl_grd</code></td>
+<td style="text-align: center;">Student grade level</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>calc_admn_cd</code></td>
+<td style="text-align: center;">Code describing special circumstances affecting test administration</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>tst_bnch</code></td>
+<td style="text-align: center;">Benchmark level of the administered test</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>tst_dt</code></td>
+<td style="text-align: center;">Test date</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>migrant_ed_fg</code></td>
+<td style="text-align: center;">Indicates student participation in a program designed to assure that migratory children receive full and appropriate opportunity to meet the state academic content and student academic achievement standards</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ind_ed_fg</code></td>
+<td style="text-align: center;">Indicates student participation in a program designed to meet the unique educational and culturally related academic needs of American Indians</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>sp_ed_fg</code></td>
+<td style="text-align: center;">Indicates student participation in an Individualized Education Plan (IEP/IFSP)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>tag_ed_fg</code></td>
+<td style="text-align: center;">Indicates student participation in a Talented and Gifted program</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>econ_dsvntg</code></td>
+<td style="text-align: center;">Indicates student eligibility for a Free or Reduced Lunch program</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ayp_lep</code></td>
+<td style="text-align: center;">Indicates a student who received services or was eligible to receive services in a Limited English Proficient program</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>stay_in_dist</code></td>
+<td style="text-align: center;">Indicates that the student has been enrolled for more than 50% of the days in the school year as of the first school day in May at the district where the student is resident on the first school day in May</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>stay_in_schl</code></td>
+<td style="text-align: center;">Indicates that the student has been enrolled for more than 50% of the days in the school year as of the first school day in May at the school where the student is resident on the first school day in May</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>dist_sped</code></td>
+<td style="text-align: center;">Indicates that the student was enrolled in a district special education program during the school year and received general education classroom instruction for less than 40% of the time as of the first school day in May</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>trgt_assist_fg</code></td>
+<td style="text-align: center;">Flag indicating the record is included in Title 1 Targeted Assistance for the Adequate Yearly Progress (AYP) school performance calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ayp_dist_partic</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) district participation calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ayp_schl_partic</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) school participation calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ayp_dist_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) district performance calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>ayp_schl_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Adequate Yearly Progress (AYP) school performance calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>rc_dist_partic</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Report Card (RC) district participation calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>rc_schl_partic</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Report Card (RC) school participation calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>rc_dist_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Report Card (RC) district performance calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>rc_schl_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Report Card (RC) school participation calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>lang_cd</code></td>
+<td style="text-align: center;">Test language</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>tst_atmpt_fg</code></td>
+<td style="text-align: center;">Code describing whether the test was attempted</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>grp_rpt_dist_partic</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Group Report district participation calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>grp_rpt_schl_inst_id</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Group Report school participation calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>grp_rpt_dist_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Group Report district performance calculations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>grp_rpt_schl_prfrm</code></td>
+<td style="text-align: center;">Flag indicating the record is included in the denominator of Group Report school participation calculations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>sch_name</code></td>
+<td style="text-align: center;">School name</td>
+</tr>
+</tbody>
+</table>
+<h4 id="gender-distribution">Gender Distribution</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-6-1.png" width="1056" /></p>
+</div>
+<h4 id="ethnicity-distribution">Ethnicity Distribution</h4>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-8-1.png" width="1056" /></p>
+</div>
+<h3 id="continuous-predictor-variables">Continuous Predictor Variables</h3>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 65%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>Variable ID</strong></th>
+<th style="text-align: center;"><strong>Variable Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>lat</code></td>
+<td style="text-align: center;">School latitude</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>lon</code></td>
+<td style="text-align: center;">school longitude</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>p_american_indian_alaska_native</code></td>
+<td style="text-align: center;">Percentage of students identified as American Indian and/or Alaska Native</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>p_asian</code></td>
+<td style="text-align: center;">Percentage of students identified as Asian</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>p_native_hawaiin_pacific_islander</code></td>
+<td style="text-align: center;">Percentage of students identified as Native Hawaiin and/or Pacific Islander</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>p_black_african_american</code></td>
+<td style="text-align: center;">Percentage of students identified as black and/or African American</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>p_hispanic_latino</code></td>
+<td style="text-align: center;">Percentage of students identified as Hispanic and/or Latino</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>p_white</code></td>
+<td style="text-align: center;">Percentage of students identified as white</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>p_multiracial</code></td>
+<td style="text-align: center;">Percentage of students identified as multiracial</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>free_lunch_qualified</code></td>
+<td style="text-align: center;">Total number of students who qualify for free lunch</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>reduced_price_lunch_qualified</code></td>
+<td style="text-align: center;">Total number of students who qualify for reduced price lunch</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>missing</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>not_applicable</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>no_category_codes</code></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>n</code></td>
+<td style="text-align: center;">Total number of students enrolled in the school</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>prop_frl</code></td>
+<td style="text-align: center;">Proportion of students who qualify for free lunch</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>prop_reduced_lunch</code></td>
+<td style="text-align: center;">Proportion of students who qualify for reduced price lunch</td>
+</tr>
+</tbody>
+</table>
+<h4 id="distribution-of-ethnicities">Distribution of Ethnicities</h4>
+<h5 id="american-indianalaskan-native-race-non-hispanic">American Indian/Alaskan Native race, non-Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-10-1.png" width="1056" /></p>
+</div>
+<h5 id="asian-non-hispanic">Asian, non-Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-11-1.png" width="1056" /></p>
+</div>
+<h5 id="blackafrican-american-non-hispanic">Black/African American, non-Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-12-1.png" width="1056" /></p>
+</div>
+<h5 id="hispanic">Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-13-1.png" width="1056" /></p>
+</div>
+<h5 id="multi-racial-non-hispanic">Multi-racial, non-Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-14-1.png" width="1056" /></p>
+</div>
+<h5 id="pacific-islander-race-non-hispanic">Pacific Islander race, non-Hispanic</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-15-1.png" width="1056" /></p>
+</div>
+<h5 id="white">White</h5>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-16-1.png" width="1056" /></p>
+</div>
+<h4 id="distribution-of-free-and-reduced-lunch-status">Distribution of Free and Reduced Lunch Status</h4>
+<p>Distribution of the proportion of students who qualify for free lunch</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-17-1.png" width="1056" /></p>
+</div>
+<p>Distribution of the proportion of students who qualify for reduced price lunch</p>
+<div class="layout-chunk" data-layout="l-body">
+<p><img src="description-of-the-dataset_files/figure-html5/unnamed-chunk-18-1.png" width="1056" /></p>
+</div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>       id             gndr            ethnic_cd        
- Min.   :   452   Length:1894        Length:1894       
- 1st Qu.: 62026   Class :character   Class :character  
- Median :128497   Mode  :character   Mode  :character  
- Mean   :127382                                        
- 3rd Qu.:190192                                        
- Max.   :252524                                        
+ Min.   :    22   Length:13263       Length:13263      
+ 1st Qu.: 62804   Class :character   Class :character  
+ Median :125333   Mode  :character   Mode  :character  
+ Mean   :125772                                        
+ 3rd Qu.:188416                                        
+ Max.   :252568                                        
                                                        
  attnd_dist_inst_id attnd_schl_inst_id    enrl_grd     calc_admn_cd  
  Min.   :1894       Min.   :   1       Min.   :3.000   Mode:logical  
- 1st Qu.:2043       1st Qu.: 524       1st Qu.:4.000   NA&#39;s:1894     
- Median :2142       Median : 960       Median :5.000                 
- Mean   :2128       Mean   :1401       Mean   :5.492                 
- 3rd Qu.:2190       3rd Qu.:1309       3rd Qu.:7.000                 
+ 1st Qu.:2039       1st Qu.: 506       1st Qu.:4.000   NA&#39;s:13263    
+ Median :2142       Median : 942       Median :5.000                 
+ Mean   :2123       Mean   :1373       Mean   :5.471                 
+ 3rd Qu.:2190       3rd Qu.:1300       3rd Qu.:7.000                 
  Max.   :4131       Max.   :5392       Max.   :8.000                 
                                                                      
    tst_bnch            tst_dt          migrant_ed_fg     
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2112,7 +2407,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
   ind_ed_fg           sp_ed_fg          tag_ed_fg        
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2120,7 +2415,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  econ_dsvntg          ayp_lep          stay_in_dist      
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2128,7 +2423,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  stay_in_schl        dist_sped         trgt_assist_fg    
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2136,7 +2431,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  ayp_dist_partic    ayp_schl_partic    ayp_dist_prfrm    
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2144,7 +2439,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  ayp_schl_prfrm     rc_dist_partic     rc_schl_partic    
- Length:1894        Length:1894        Length:1894       
+ Length:13263       Length:13263       Length:13263      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2152,23 +2447,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  rc_dist_prfrm      rc_schl_prfrm      partic_dist_inst_id
- Length:1894        Length:1894        Min.   :1894       
- Class :character   Class :character   1st Qu.:2043       
+ Length:13263       Length:13263       Min.   :1894       
+ Class :character   Class :character   1st Qu.:2041       
  Mode  :character   Mode  :character   Median :2142       
-                                       Mean   :2132       
-                                       3rd Qu.:2191       
+                                       Mean   :2124       
+                                       3rd Qu.:2190       
                                        Max.   :4131       
-                                       NA&#39;s   :6          
+                                       NA&#39;s   :44         
  partic_schl_inst_id   lang_cd          tst_atmpt_fg      
- Min.   :   1        Length:1894        Length:1894       
- 1st Qu.: 524        Class :character   Class :character  
- Median : 960        Mode  :character   Mode  :character  
- Mean   :1403                                             
- 3rd Qu.:1309                                             
+ Min.   :   1        Length:13263       Length:13263      
+ 1st Qu.: 506        Class :character   Class :character  
+ Median : 942        Mode  :character   Mode  :character  
+ Mean   :1375                                             
+ 3rd Qu.:1300                                             
  Max.   :5392                                             
- NA&#39;s   :6                                                
+ NA&#39;s   :44                                               
  grp_rpt_dist_partic grp_rpt_schl_partic grp_rpt_dist_prfrm
- Length:1894         Length:1894         Length:1894       
+ Length:13263        Length:13263        Length:13263      
  Class :character    Class :character    Class :character  
  Mode  :character    Mode  :character    Mode  :character  
                                                            
@@ -2176,45 +2471,69 @@ document.addEventListener('DOMContentLoaded', function() {
                                                            
                                                            
  grp_rpt_schl_prfrm     score         ncessch         
- Length:1894        Min.   :1821   Min.   :4.100e+11  
- Class :character   1st Qu.:2419   1st Qu.:4.103e+11  
- Mode  :character   Median :2503   Median :4.108e+11  
-                    Mean   :2500   Mean   :4.107e+11  
-                    3rd Qu.:2578   3rd Qu.:4.110e+11  
-                    Max.   :3080   Max.   :4.114e+11  
-                                   NA&#39;s   :26         
+ Length:13263       Min.   :1821   Min.   :4.100e+11  
+ Class :character   1st Qu.:2420   1st Qu.:4.103e+11  
+ Mode  :character   Median :2497   Median :4.108e+11  
+                    Mean   :2498   Mean   :4.107e+11  
+                    3rd Qu.:2575   3rd Qu.:4.111e+11  
+                    Max.   :3550   Max.   :4.114e+11  
+                                   NA&#39;s   :202        
       lat             lon           sch_name        
- Min.   :42.03   Min.   :-124.5   Length:1894       
- 1st Qu.:44.09   1st Qu.:-123.0   Class :character  
- Median :45.25   Median :-122.8   Mode  :character  
- Mean   :44.75   Mean   :-122.5                     
+ Min.   :42.01   Min.   :-124.5   Length:13263      
+ 1st Qu.:44.25   1st Qu.:-123.0   Class :character  
+ Median :45.27   Median :-122.8   Mode  :character  
+ Mean   :44.79   Mean   :-122.5                     
  3rd Qu.:45.50   3rd Qu.:-122.5                     
- Max.   :46.18   Max.   :-117.0                     
- NA&#39;s   :30      NA&#39;s   :30                         
+ Max.   :46.18   Max.   :-116.9                     
+ NA&#39;s   :218     NA&#39;s   :218                        
  p_american_indian_alaska_native    p_asian       
  Min.   :0.00000                 Min.   :0.00000  
- 1st Qu.:0.00270                 1st Qu.:0.00576  
- Median :0.00564                 Median :0.01377  
- Mean   :0.01174                 Mean   :0.03980  
- 3rd Qu.:0.01173                 3rd Qu.:0.03913  
+ 1st Qu.:0.00265                 1st Qu.:0.00551  
+ Median :0.00583                 Median :0.01375  
+ Mean   :0.01227                 Mean   :0.03919  
+ 3rd Qu.:0.01174                 3rd Qu.:0.03846  
  Max.   :0.88284                 Max.   :0.61931  
- NA&#39;s   :2                       NA&#39;s   :2        
+ NA&#39;s   :10                      NA&#39;s   :10       
  p_native_hawaiian_pacific_islander p_black_african_american
  Min.   :0.000000                   Min.   :0.00000         
- 1st Qu.:0.000000                   1st Qu.:0.00382         
- Median :0.003400                   Median :0.00883         
- Mean   :0.007428                   Mean   :0.02067         
- 3rd Qu.:0.009390                   3rd Qu.:0.02087         
+ 1st Qu.:0.000000                   1st Qu.:0.00371         
+ Median :0.003540                   Median :0.00926         
+ Mean   :0.007837                   Mean   :0.02188         
+ 3rd Qu.:0.009500                   3rd Qu.:0.02116         
  Max.   :0.083800                   Max.   :0.49846         
- NA&#39;s   :2                          NA&#39;s   :2               
+ NA&#39;s   :10                         NA&#39;s   :10              
  p_hispanic_latino    p_white       p_multiracial    
  Min.   :0.0000    Min.   :0.0000   Min.   :0.00000  
- 1st Qu.:0.1008    1st Qu.:0.4533   1st Qu.:0.04493  
- Median :0.1851    Median :0.6500   Median :0.06657  
- Mean   :0.2454    Mean   :0.6074   Mean   :0.06650  
- 3rd Qu.:0.3315    3rd Qu.:0.7749   3rd Qu.:0.08472  
- Max.   :0.9945    Max.   :0.9462   Max.   :0.35088  
- NA&#39;s   :2         NA&#39;s   :2        NA&#39;s   :2        </code></pre>
+ 1st Qu.:0.1008    1st Qu.:0.4533   1st Qu.:0.04474  
+ Median :0.1850    Median :0.6538   Median :0.06673  
+ Mean   :0.2439    Mean   :0.6069   Mean   :0.06680  
+ 3rd Qu.:0.3299    3rd Qu.:0.7734   3rd Qu.:0.08472  
+ Max.   :1.0000    Max.   :1.0000   Max.   :0.35088  
+ NA&#39;s   :10        NA&#39;s   :10       NA&#39;s   :10       
+ free_lunch_qualified reduced_price_lunch_qualified    missing   
+ Min.   :  0.0        Min.   :  0.00                Min.   :0    
+ 1st Qu.:122.0        1st Qu.: 22.00                1st Qu.:0    
+ Median :211.0        Median : 36.00                Median :0    
+ Mean   :228.6        Mean   : 39.57                Mean   :0    
+ 3rd Qu.:309.0        3rd Qu.: 52.00                3rd Qu.:0    
+ Max.   :813.0        Max.   :132.00                Max.   :0    
+ NA&#39;s   :202          NA&#39;s   :202                   NA&#39;s   :202  
+ not_applicable no_category_codes       n             prop_frl     
+ Min.   :0      Min.   :  0.0     Min.   :  12.0   Min.   :0.0000  
+ 1st Qu.:0      1st Qu.:152.0     1st Qu.: 420.0   1st Qu.:0.1916  
+ Median :0      Median :248.0     Median : 599.0   Median :0.2921  
+ Mean   :0      Mean   :268.2     Mean   : 807.3   Mean   :0.3562  
+ 3rd Qu.:0      3rd Qu.:357.0     3rd Qu.:1165.0   3rd Qu.:0.4918  
+ Max.   :0      Max.   :920.0     Max.   :3144.0   Max.   :4.3823  
+ NA&#39;s   :202    NA&#39;s   :202       NA&#39;s   :202      NA&#39;s   :202     
+ prop_reduced_lunch
+ Min.   :0.00000   
+ 1st Qu.:0.03633   
+ Median :0.05385   
+ Mean   :0.06072   
+ 3rd Qu.:0.07481   
+ Max.   :1.20833   
+ NA&#39;s   :202       </code></pre>
 </div>
 <h1 id="split-and-resample">Split and Resample</h1>
 <div class="layout-chunk" data-layout="l-body">
@@ -2238,20 +2557,48 @@ After processing the data, we are left with 1 outcome variable, 7 id variables, 
 Inputs:
 
       role #variables
-        id          7
+   id vars          6
    outcome          1
- predictor         39
+ predictor         48
 
-Training data contained 1422 data points and 1422 incomplete rows. 
+Training data contained 9949 data points and 9949 incomplete rows. 
 
 Operations:
 
 Variable mutation for tst_dt [trained]
+Novel factor level assignment for gndr, ethnic_cd, ... [trained]
 Unknown factor level assignment for gndr, ethnic_cd, ... [trained]
-Median Imputation for id, ... [trained]
-Sparse, unbalanced variable filter removed calc_admn_cd [trained]
-Dummy variables from gndr, ethnic_cd, tst_bnch, ... [trained]
-Sparse, unbalanced variable filter removed gndr_unknown, ... [trained]</code></pre>
+Sparse, unbalanced variable filter removed calc_admn_cd, ... [trained]
+Median Imputation for enrl_grd, tst_dt, lat, ... [trained]
+Dummy variables from gndr, ethnic_cd, tst_bnch, sp_ed_fg, ... [trained]
+Sparse, unbalanced variable filter removed gndr_new, ... [trained]
+Interactions with lat:lon [trained]</code></pre>
+<pre><code># A tibble: 9,949 x 37
+       id attnd_dist_inst… attnd_schl_inst… enrl_grd tst_dt
+    &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+ 1 188408             1970              219        3 1.52e9
+ 2 226880             2252             1208        4 1.53e9
+ 3   3436             2243             1176        5 1.53e9
+ 4  48828             2043              390        4 1.52e9
+ 5 252482             2087              574        3 1.53e9
+ 6 226888             1922             1287        8 1.53e9
+ 7  70637             2197             1012        6 1.53e9
+ 8 170356             2239             4641        4 1.53e9
+ 9 158918             2142              763        3 1.53e9
+10 185543             2142              754        4 1.53e9
+# … with 9,939 more rows, and 32 more variables:
+#   partic_dist_inst_id &lt;dbl&gt;, partic_schl_inst_id &lt;dbl&gt;,
+#   ncessch &lt;dbl&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;,
+#   p_american_indian_alaska_native &lt;dbl&gt;, p_asian &lt;dbl&gt;,
+#   p_hispanic_latino &lt;dbl&gt;, p_white &lt;dbl&gt;, p_multiracial &lt;dbl&gt;,
+#   free_lunch_qualified &lt;dbl&gt;, reduced_price_lunch_qualified &lt;dbl&gt;,
+#   no_category_codes &lt;dbl&gt;, n &lt;int&gt;, prop_frl &lt;dbl&gt;,
+#   prop_reduced_lunch &lt;dbl&gt;, score &lt;dbl&gt;, gndr_M &lt;dbl&gt;,
+#   ethnic_cd_H &lt;dbl&gt;, ethnic_cd_M &lt;dbl&gt;, ethnic_cd_W &lt;dbl&gt;,
+#   tst_bnch_X2B &lt;dbl&gt;, tst_bnch_X3B &lt;dbl&gt;, tst_bnch_G4 &lt;dbl&gt;,
+#   tst_bnch_G6 &lt;dbl&gt;, tst_bnch_G7 &lt;dbl&gt;, sp_ed_fg_Y &lt;dbl&gt;,
+#   tag_ed_fg_Y &lt;dbl&gt;, econ_dsvntg_Y &lt;dbl&gt;, ayp_lep_F &lt;dbl&gt;,
+#   ayp_lep_unknown &lt;dbl&gt;, lat_x_lon &lt;dbl&gt;</code></pre>
 </div>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
