@@ -84,7 +84,7 @@ data <- left_join(data, ethnicities)
 data <- left_join(data, frl)
 ```
 
-# Split and Resample 
+## Split and Resample 
 
 ```{r split, include=TRUE}
 set.seed(3000)
@@ -99,7 +99,7 @@ data_cv <- vfold_cv(train, strata = "score")
 
 ```
 
-# Recipe 
+## Recipe 
 ```{r recipe, include=TRUE}
 # this from model 1
 rec <- recipe(score ~ ., train) %>% 
@@ -119,6 +119,31 @@ baked_train
 ```
 
 ## Model 1: Linear Model 
+
+### Rationale for Selecting a Linear Model 
+
+Linear models assume a normal distribution within the data it is applied to. As demonstrated in the histogram, the score variable displays a normal distribution, which suggests a linear model can be fit to the data with both low variance and low bias. 
+
+```{r, include=TRUE}
+ggplot(data, aes(score)) +
+  geom_histogram(fill = "#56B4E9",
+                color = "white", 
+                alpha = 0.9,
+                bins = 25) +
+  labs(x = "Score",
+       y = "Number of Observations",
+       title = "Distribution of Scores")
+```
+
+### Model Construction 
+
+The three linear models presented in the course represent penalized regression models, which shrink the coefficients towards zero in order to reduce the model's overall variance. 
+
+  1. Ridge Regression Model: Shrinks coefficients of correlated predictors toward each other, which is beneficial when the purpose of the model is to keep all predictors. 
+  2. Lasso Regression Model: Selects one predictor to model the outcome while ignoring other predictors, which is beneficial to identifying the largest and most consistent predictor in data with may predictors.
+  3. Elastic Net Regression Model: Combines the two types of penalties, which is better suited for multicollinearity. 
+  
+Instead of selecting one of the specific penalties to run our linear model, we opted to use cross-validation to find the optimal tuning parameters with a grid search. We specifically tuned the penalty and mixture parameters of the linear model. Our grid search utilized a regular grid with 10 possible values for the penalty and 5 possible values for the mixture, which produced 50 models per fold, resulting in a total of 500 models. 
 
 ```{r, include=TRUE} 
 tictoc::tic()
@@ -143,12 +168,20 @@ linear_mod_best <- final_mod_tuning %>% # 90.66920
 linear_mod_best
 ```
 
-## Model 1 Summary 
+### Evaluation of the Model 
 
-A linear model was selected as the first model to run for the final project to serve as a threshold to compare to the other two models. Initial iterations of the linear regression model were run exclusively on the combined *FRL* and training data, which resulted in a RMSE value of ~96.0. Expanding the data set to include the *ethnicities* and *ode_schools* and adding the interaction of `lat` and `lon` to the recipe decreased the RMSE to ~90.67. 
+The specific metric used to evaluate model performance was the RMSE. Utilzing the `show_best()` function, we isolated the best performing model, which obtained a RMSE value of approximately 90.5. As we randomly sampled 7% of the data, consecutive runs of the model generated RMSE values ranging from 90.4 - 90.6. Of note, initial iterations of the linear regression model were run exclusively on the combined *FRL* and training data, which resulted in a RMSE value of ~96.0. Expanding the data set to include the *ethnicities* and *ode_schools* and adding the interaction of `lat` and `lon` to the recipe decreased the RMSE to ~90.5. The strength of the linear model is likely a direct result of the normal distribution of the data it was applied to. 
 
 
-# Model 2: Decision tree
+#@ Model 2: Decision tree
+
+### Rationale for Selecting a Decision Tree 
+
+While decision trees are not as complex as other modeling techniques, they do provide a foundation for more complex models, such as a random forest, which was the technique selected for our third model. As a non-parametric model, decision trees do not make any assumptions about the data, which is a positive feature in situations where it is challenging to assume a data distribution. As we randomly sampled 7% of the data, we cannot truly conclude that the `score` variable represents a true normal distribution. Therefore, a decision tree model provides a sensitive method to model the data to generalize to the complete data set in the case a normal distribution does not exist.
+
+### Model Construction 
+
+To construct our decision tree model, we first tuned two of the three decision tree hyperparameters. Specifically, we tuned the `cost_complexity` and `min_n` hyperparameters to allow them to control the depth of the tree. Second, we utilized a regular  grid with 10 possible values for the cost complexity and 5 possible values for the minimum *n*. 
 
 ```{r, include=TRUE}
 # 1. Tuning the cost complexity and minimum n 
@@ -208,6 +241,7 @@ decision_tree_best <- show_best(dt_tune_fit2, metric = "rmse", n = 1) # Slight i
 decision_tree_best
 ```
 
+
 finalize the decision tree model 
 ```{r}
 # set the final model parameters
@@ -229,8 +263,9 @@ predictions <- final_fit_dt$.predictions[[1]] # not so amazing though. The predi
 predictions
 ```
 
-## Summary model 2 decision tree: 
+### Evaluation of the Model 
 
+After running the model, we ran `collect_metrics()` to evaluate the value of the RMSE and created a scatter plot to visualize the relationship between the mean RMSE values and cost_complexity values. The `show_best()` function revealed that the best RMSE values of the model ranged from 92.3-92.8. To reduce the value of the RMSE, we tuned our grid to limit the range of the min_n value from 10 to 40 and set the cost complexity to equal 0.001. After running the model with the updated tuned grid, the RMSE was slightly reduced to 92.29. 
 
 # Model : Bagged Tree
 
@@ -286,7 +321,28 @@ collect_metrics(final_fit_bagtree)
 plan(sequential)
 ```
 
-# Model 4: Random Forest 
+
+
+## Model 3: Random Forest 
+
+### Rationale for Selecting a Random Forest
+
+Random forests provide very strong "out of the box" model performance. Additionally, with a wide variety of predictive variables, random forests are adept to isolating the unique features of the data because a random selection of features is included in each split, which helps decorrelate the trees. 
+
+### Model Construction 
+
+To construct our random forest model in which the model was evaluated using OOB samples, the following steps were taken: 
+
+  1. Process the data by piping the recipe to the `prep()` and `bake()` functions.
+  2. Write a function that fits the model for a given set of hyperparameters and returns a data frame that includes the hyperparameter values, RMSE, and model object.
+  3. Fit model and evaluate values of hyperparameters to determine tuning procedure.
+  4. Create grid to tune model evaluating `mtry` values of 5 to 15 and `min_n` values ranging from 5 to 25 by increments of 5. 
+  5. Fit model and evaluate hyperparameters 
+  6. Adjust grid to evaluate `mtry` values of 6 and 7 `min_n` values ranging from 20 to 25 by increments of 1. 
+  7. Fit model and evaluate hyperparameters to identify lowest RMSE.
+  8. Run model with the lowest RMSE value using tree values ranging from 500 to 1500 by increments of 100. 
+  
+
 
 ```{r, include=TRUE}
 library(tictoc)
@@ -382,6 +438,10 @@ ggplot(rf_reg_ntrees, aes(trees, rmse)) +
   geom_line()
 ```
 
+### Evaluation of the Model 
+
+
+
 ## Fit
 
 ```{r, include=TRUE}
@@ -417,6 +477,9 @@ tictoc::toc()
 show_best(rf_def_res, "rmse")
 
 ```
+
+
+
 
 # Make Predictions 
 
