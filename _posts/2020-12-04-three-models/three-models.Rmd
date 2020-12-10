@@ -344,7 +344,7 @@ rf_tune_res <- tune_grid(
 )
 tictoc::toc()
 
-show_best(rf_tune_res, "rmse")
+show_best(rf_tune_res, "rmse") # 89.98302
   
 ```
 
@@ -355,25 +355,37 @@ We used the same recipe and the same sub data set and fit two random forest mode
 
 # finalize models
 ```{r}
+
+rf_tune_workflow <- 
+  workflow() %>% 
+  add_model(rf_tune_mod) %>% 
+  add_recipe(rec)
+
 rf_best <- select_best(rf_tune_res, metric = "rmse")
 
-rf_final <- finalize_model(
-  rf_tune_mod,
-  rec,
+rf_wf_final <- finalize_workflow(
+  rf_tune_workflow,
   rf_best
 )
 
-rf_final
+rf_wf_final
 
 tictoc::tic()
 set.seed(3000)
-rf_res_final <- last_fit(rf_final,
-                         split = data_cv)
+rf_res_final <- last_fit(rf_wf_final,
+                         split = data_split)
 tictoc::toc()
-rf_res_final
+
+rf_res_final[[3]] # 89.8819913	
 ```
 
+```{r}
 
+fit_rf_workflow <- fit(rf_wf_final, train)
+
+predict(fit_rf_workflow, 
+        new_data = test)
+```
 
 
 
