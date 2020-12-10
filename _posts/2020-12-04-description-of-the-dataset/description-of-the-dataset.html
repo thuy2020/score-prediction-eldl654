@@ -1925,22 +1925,27 @@ code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warni
  Max.   :1.20833   
  NA&#39;s   :202       </code></pre>
 </div>
-<h1 id="split-and-resample">Split and Resample</h1>
+<h2 id="split-and-resample">Split and Resample</h2>
+<p>The code chunk below details on the training data was split and resampled with k-fold cross validation to generate all three models.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
-<h1 id="preprocess">Preprocess</h1>
+<h2 id="preprocess">Preprocess</h2>
 <p>We processed the varibales in the dataset through the following steps:</p>
+<ol type="1">
+<li>All id variables were assigned to “id” role, which are not used as predictors.</li>
+<li>All nominal variables, except the outcome, with a missing value in a factor level were assigned to “unknown” level.</li>
+<li>All numeric variables with a missing value were imputed by its median value.</li>
+<li>Predictor variables with nearly no variation were removed.</li>
+<li>All nominal variables, except id variables and the outcome variable, were dummy coded.</li>
+<li>Following the implementation of dummy coding, all nominal variables with nearly no variation were removed.</li>
+</ol>
+<p>The final processed data generated:</p>
 <ul>
-<li>All id variables are assigned to “id” role, which are not used as predictors<br />
-</li>
-<li>All nominal varibales, except the outcome, with a missing value in a factor level are assigned to “unknown” level.</li>
-<li>All numeric variables with a missing value are imputed by its median value.</li>
-<li>Predictor variables with nearly no variation are removed</li>
-<li>All nominal varibales, except id variables and outcomes, are dummy coded</li>
-<li>After dummny coded, all nominal variables with nearly no variation are removed.</li>
+<li>6 id variables</li>
+<li>1 outcome variable</li>
+<li>48 predictor variables</li>
 </ul>
-After processing the data, we are left with 1 outcome variable, 7 id variables, and 39 predictors.
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>Data Recipe
 

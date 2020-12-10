@@ -347,7 +347,9 @@ ggplot(ethnic_data_long, aes(prop_reduced_lunch)) +
 summary(data)
 ```
 
-# Split and Resample 
+## Split and Resample 
+
+The code chunk below details on the training data was split and resampled with k-fold cross validation to generate all three models. 
 
 ```{r, include=TRUE}
 set.seed(3000)
@@ -362,18 +364,24 @@ data_cv <- vfold_cv(train, strata = "score")
 
 ```
 
-# Preprocess 
+## Preprocess 
 
 We processed the varibales in the dataset through the following steps: 
 
-- All id variables are assigned to "id" role, which are not used as predictors  
-- All nominal varibales, except the outcome, with a missing value in a factor level are assigned to "unknown" level. 
-- All numeric variables with a missing value are imputed by its median value.
-- Predictor variables with nearly no variation are removed
-- All nominal varibales, except id variables and outcomes, are dummy coded
-- After dummny coded, all nominal variables with nearly no variation are removed. 
+  1. All id variables were assigned to "id" role, which are not used as predictors.
+  2. All nominal variables, except the outcome, with a missing value in a factor level were assigned to "unknown" level. 
+  3. All numeric variables with a missing value were imputed by its median value. 
+  4. Predictor variables with nearly no variation were removed.
+  5. All nominal variables, except id variables and the outcome variable, were dummy coded.
+  6. Following the implementation of dummy coding, all nominal variables with nearly no variation were removed. 
 
-After processing the data, we are left with 1 outcome variable, 7 id variables, and 39 predictors. 
+
+The final processed data generated: 
+
+  * 6 id variables
+  * 1 outcome variable
+  * 48 predictor variables 
+
 ```{r, include=TRUE}
 # this from model 1
 rec <- recipe(score ~ ., train) %>% 

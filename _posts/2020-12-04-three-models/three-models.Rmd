@@ -173,7 +173,7 @@ linear_mod_best
 The specific metric used to evaluate model performance was the RMSE. Utilzing the `show_best()` function, we isolated the best performing model, which obtained a RMSE value of approximately 90.5. As we randomly sampled 7% of the data, consecutive runs of the model generated RMSE values ranging from 90.4 - 90.6. Of note, initial iterations of the linear regression model were run exclusively on the combined *FRL* and training data, which resulted in a RMSE value of ~96.0. Expanding the data set to include the *ethnicities* and *ode_schools* and adding the interaction of `lat` and `lon` to the recipe decreased the RMSE to ~90.5. The strength of the linear model is likely a direct result of the normal distribution of the data it was applied to. 
 
 
-#@ Model 2: Decision tree
+## Model 2: Decision tree
 
 ### Rationale for Selecting a Decision Tree 
 
@@ -242,7 +242,7 @@ decision_tree_best
 ```
 
 
-finalize the decision tree model 
+### Finalize the Decision Tree Model 
 ```{r}
 # set the final model parameters
 best_params <- select_best(dt_tune_fit2, metric = "rmse")
@@ -278,19 +278,9 @@ Random forests provide very strong "out of the box" model performance. Additiona
 
 To construct our random forest model in which the model was evaluated using OOB samples, the following steps were taken: 
 
-  1. Process the data by piping the recipe to the `prep()` and `bake()` functions.
-  2. Write a function that fits the model for a given set of hyperparameters and returns a data frame that includes the hyperparameter values, RMSE, and model object.
-  3. Fit model and evaluate values of hyperparameters to determine tuning procedure.
-  4. Create grid to tune model evaluating `mtry` values of 5 to 15 and `min_n` values ranging from 5 to 25 by increments of 5. 
-  5. Fit model and evaluate hyperparameters 
-  6. Adjust grid to evaluate `mtry` values of 6 and 7 `min_n` values ranging from 20 to 25 by increments of 1. 
-  7. Fit model and evaluate hyperparameters to identify lowest RMSE.
-  8. Run model with the lowest RMSE value using tree values ranging from 500 to 1500 by increments of 100. 
+  1. We ran a default random forest model, which generated a RMSE value of 92.7
+  2. We then ran a tuned random forest model, specifically tuning the `mtry` and `min_n` hyperparameters. The number of trees was set to 1000, and tune was set to 10.
   
-# Model 3: Random Forest Model
-
-## we first fit a default model
-
 ```{r, include=TRUE}
 (cores <- parallel::detectCores())
 
@@ -320,7 +310,6 @@ show_best(rf_def_res, "rmse")
 
 ```
 
-## we then fit a tuned model
 
 ```{r}
 
@@ -348,12 +337,19 @@ show_best(rf_tune_res, "rmse") # 89.98302
   
 ```
 
-# Model 3 Summary
+### Evaluation of the Model 
 
-We used the same recipe and the same sub data set and fit two random forest models with the first being the default model and the second one tuned at 20 values. The default model gives us its best rmse value of 92.3 and the tuned model 
+The tuned random forest model yielded the best RMSE value of any model evaluated for our project. Dependent upon the random sample, the obtained RMSE ranged from 89.90 to 90.2. 
 
 
-# finalize models
+## Finalize Model
+
+The tuned random forest model generated the lowest RMSE value; therefore, it was determined to be the strongest model of all models evaluated for the project. To finalize this model, the following steps were taken: 
+
+  1. Create a workflow with the tuned random forest model and recipe used in all models for the project. 
+  2. Select the best model from the tuned random forest model.
+  3. Fit the model to the initial data split. 
+
 ```{r}
 
 rf_tune_workflow <- 
@@ -363,6 +359,7 @@ rf_tune_workflow <-
 
 rf_best <- select_best(rf_tune_res, metric = "rmse")
 
+<<<<<<< Updated upstream
 rf_wf_final <- finalize_workflow(
   rf_tune_workflow,
   rf_best
@@ -377,7 +374,32 @@ rf_res_final <- last_fit(rf_wf_final,
 tictoc::toc()
 
 rf_res_final[[3]] # 89.8819913	
+=======
+rf_mod_final <- rf_tune_mod %>% 
+  finalize_model(rf_best)
+
+rf_rec_final <- rec %>% 
+  finalize_recipe(rf_best)
+
+c1 <- makeCluster(8)
+registerDoParallel(c1)
+
+tictoc::tic()
+set.seed(3000)
+rf_res_final <- last_fit(rf_mod_final,
+                         rf_rec_final,
+                         split = data_split)
+tictoc::toc()
+
+stopCluster(c1)
+rf_res_final
+
+>>>>>>> Stashed changes
 ```
+
+## Make Final Predictions 
+
+To generate final predictions, the finalized random forest workflow was fit to the training data (note: the trained data set was joined with the FRL and ethnicities data sets as outlined in the data description blog post).The ensuing fit was then applied to the test data set to generate final predictions. 
 
 ```{r}
 
