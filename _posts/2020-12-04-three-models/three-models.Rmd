@@ -267,61 +267,6 @@ predictions
 
 After running the model, we ran `collect_metrics()` to evaluate the value of the RMSE and created a scatter plot to visualize the relationship between the mean RMSE values and cost_complexity values. The `show_best()` function revealed that the best RMSE values of the model ranged from 92.3-92.8. To reduce the value of the RMSE, we tuned our grid to limit the range of the min_n value from 10 to 40 and set the cost complexity to equal 0.001. After running the model with the updated tuned grid, the RMSE was slightly reduced to 92.29. 
 
-# Model : Bagged Tree
-
-```{r, include=TRUE}
-# 1. set model 
-
-bt_mod <- bag_tree() %>% 
-  set_mode("regression") %>% 
-  set_args(cost_complexity = tune(), min_n = tune()) %>% 
-  set_engine("rpart", times = 50) # you will almost surely need more than 10
-
-
-# fit to $k$ folds
-tictoc::tic() 
-bt_fit1 <- fit_resamples(bt_mod,
-                       preprocessor = rec,
-                       resamples = data_cv)
-tictoc::toc() 
-
-collect_metrics(bt_fit1)
-# 2. Tune with tune_grid
-
-tree_grid <- grid_max_entropy(cost_complexity(), min_n(), size = 10) 
-
-plan(multisession) 
-tictoc::tic()
-bag_tune <- tune_grid(bag_mod_tune,
-                      rec,
-                      data_cv,
-                      grid = tree_grid) 
-tictoc::toc() # 311.272 sec elapsed
-
-# 4. Best hyper parameters
-select_best(bag_tune, "rmse")
-
-# You should be doing more tuning than this. You need to actually evaluate your
-# hyperparameters and see if there are trends and areas you need to do more
-# detailed searches in. The space filling designs should just be a starting 
-# point. They should give you a good approximation of hyperparamter combinations
-# that work well, but you need to do more refined tuning  to find the best 
-# combination
-```
-
-Finalize model 3
-```{r}
-final_bag_mod <- bag_mod_tune %>% 
-  finalize_model(select_best(bag_tune, "rmse"))
-```
-Test fit model 3
-```{r}
-final_fit_bagtree <- last_fit(final_bag_mod, rec, data_split)
-collect_metrics(final_fit_bagtree)
-plan(sequential)
-```
-
-
 
 ## Model 3: Random Forest 
 
@@ -342,182 +287,93 @@ To construct our random forest model in which the model was evaluated using OOB 
   7. Fit model and evaluate hyperparameters to identify lowest RMSE.
   8. Run model with the lowest RMSE value using tree values ranging from 500 to 1500 by increments of 100. 
   
+# Model 3: Random Forest Model
 
-
-```{r, include=TRUE}
-library(tictoc)
-# Note: starting line 532 in Daniel's book, file "04-bagged-trees.Rmd"
-
-#1. Prepare data
-
-processed_reg <- rec %>% 
-  prep() %>% 
-  #bake(new_data = NULL) %>% #this can't run
-  bake(new_data = train) %>% 
-  select(-contains("id"), -ncessch, -tst_dt)
-
-processed_reg
-
-#2. A function for a set of hyperparameters 
-
-rf_fit_reg <- function(tree_n, mtry, min_n) {
-  rf_mod_reg <- rand_forest() %>% 
-    set_mode("regression") %>% 
-    set_engine("ranger") %>% 
-    set_args(mtry = mtry,
-             min_n = min_n,
-             trees = tree_n)
-
-  rf_fit <- fit(rf_mod_reg, 
-                formula = score ~ .,
-                data = processed_reg)
-  
-  # output RMSE
-  tibble(rmse = sqrt(rf_fit$fit$prediction.error)) %>% 
-    mutate(trees = tree_n, 
-           mtry = mtry, 
-           min_n = min_n,
-           model = list(rf_fit))
-}
-
-```
-
-```{r}
-#3. Tuning
-
-# number of preditors
-ncol(processed_reg) - 1
-
-# grid
-grid_reg <- expand.grid(mtry = 5:15,
-                        min_n = c(2, seq(5, 25, 5)))
-
-
-tic()
-rf_reg_fits <- map2_df(grid_reg$mtry, grid_reg$min_n, 
-                       ~rf_fit_reg(1000, .x, .y))
-toc()
-
-rf_reg_fits %>% 
-  arrange(rmse) # this take forever to run
-
-# evaluate the hyperparameters
-
-ggplot(rf_reg_fits, aes(mtry, rmse)) +
-  geom_line() +
-  facet_wrap(~min_n)
-
-# evaluate values from 20 to 25 in increments of 1, while using both `mtry` values of 5 and 6.
-
-grid_reg2 <- expand.grid(mtry = c(6, 7),
-                         min_n = seq(20, 25, 1))
-
-tic()
-rf_reg_fits2 <- map2_df(grid_reg2$mtry, grid_reg2$min_n, 
-                       ~rf_fit_reg(1000, .x, .y))
-toc()
-
-rf_reg_fits2 <- rf_reg_fits2 %>% 
-  arrange(rmse)
-rf_reg_fits2
-
-#  Run model that had the lowest RMSE. Using trees from 500 to 1500 by increments of 100
-
-tic()
-rf_reg_ntrees <- map_df(seq(500, 1500, 100), 
-                        ~rf_fit_reg(.x, 
-                                    mtry = rf_reg_fits2$mtry[1], 
-                                    min_n = rf_reg_fits2$min_n[1])
-                        )
-toc()
-```
-
-```{r}
-#plot to find a point of stability
-ggplot(rf_reg_ntrees, aes(trees, rmse)) +
-  geom_line()
-```
-
-### Evaluation of the Model 
-
-
-
-## Fit
+## we first fit a default model
 
 ```{r, include=TRUE}
-# You have not setup a grid to search over. You have two parameters here to tune
-# but you're moving to `fit_resamples()` instead of `tune_grid()`
-# tictoc::tic()
-# set.seed(3000)
-# rf_def_res <- fit_resamples(
-#   rf_wflow,
-#   data_cv,
-#   metrics = metrics_eval,
-#   control = control_resamples(verbose = TRUE,
-#                             save_pred = TRUE,
-#                             extract = function(x) x))
-# tictoc::toc()
+(cores <- parallel::detectCores())
 
-# you should actually create a grid (probably start with a space filling 
-# design and then go from there, as described above) but for now I'll just 
-# do it with 10 values
+rf_def_mod <-
+  rand_forest() %>% 
+  set_engine("ranger",
+             num.threads = cores, #argument from {ranger}
+             importance = "permutation", #argument from {ranger} 
+             verbose = TRUE) %>% #argument from {ranger} 
+  set_mode("regression")
+
 
 tictoc::tic()
 set.seed(3000)
-rf_def_res <- tune_grid(
-  rf_wflow,
+
+rf_def_res <- fit_resamples(
+  rf_def_mod,
+  rec,
   data_cv,
-  metrics = metrics_eval,
   control = control_resamples(verbose = TRUE,
-                            save_pred = TRUE,
-                            extract = function(x) x))
+                              save_pred = TRUE,
+                              extract = function(x) x)
+)
 tictoc::toc()
 
-# Best Estimates 
 show_best(rf_def_res, "rmse")
 
 ```
 
+## we then fit a tuned model
 
+```{r}
 
+rf_tune_mod <- rf_def_mod %>% 
+  set_args(
+    mtry = tune(),
+    trees = 1000,
+    min_n = tune()
+  )
 
-# Make Predictions 
+tictoc::tic()
+set.seed(3000)
+rf_tune_res <- tune_grid(
+  rf_tune_mod,
+  rec,
+  data_cv,
+  tune = 10,
+  control = control_resamples(verbose = TRUE,
+                              save_pred = TRUE,
+                              extract = function(x) extract_model(x))
+)
+tictoc::toc()
 
-```{r, include=TRUE}
-## Read and join full test data 
-full_test <- read_csv(here::here("data", "train.csv"))
-
-full_test_join <- left_join(full_test, ethnicities)
+show_best(rf_tune_res, "rmse")
+  
 ```
 
-## Apply Fit Function to Workflow and Full Training 
+# Model 3 Summary
 
-```{r, include=TRUE}
-# You need to finalize your model before you can do the below because you have
-# arguments that are set to `tune()`. They need actual values first.
+We used the same recipe and the same sub data set and fit two random forest models with the first being the default model and the second one tuned at 20 values. The default model gives us its best rmse value of 92.3 and the tuned model 
 
-# tictoc::tic()
-# fit_rf_workflow <- fit(rf_wflow, train)
-# tictoc::toc()
 
-# fit_rf_workflow
+# finalize models
+```{r}
+rf_best <- select_best(rf_tune_res, metric = "rmse")
 
-# sqrt(fit_rf_workflow$fit$fit$fit$prediction.error)
+rf_final <- finalize_model(
+  rf_tune_mod,
+  rec,
+  rf_best
+)
+
+rf_final
+
+tictoc::tic()
+set.seed(3000)
+rf_res_final <- last_fit(rf_final,
+                         split = data_cv)
+tictoc::toc()
+rf_res_final
 ```
 
-```{r, include=TRUE}
-# model_3_prediction <- predict(fit_rf_workflow, new_data = full_test_join)
-# 
-# head(model_3_prediction)
-```
 
-```{r, include=TRUE}
-# pred_frame <- tibble(Id = full_test_join$id, Predict = model_3_prediction$.pred)
-# 
-# head(pred_frame)
-```
 
-```{r, include=TRUE}
-# write_csv(pred_frame, "model_3_predictions.csv")
-```
+
 
