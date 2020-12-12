@@ -20,9 +20,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -32,16 +32,14 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
+    border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -50,39 +48,39 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  {  }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+a.sourceLine::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #545454; font-weight: bold; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #a1024a; } /* BaseN */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #20794d; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #008000; } /* Char */
-code span.cn { color: #d91e18; } /* Constant */
-code span.co { color: #545454; } /* Comment */
-code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #aa5d00; } /* DataType */
-code span.dv { color: #a1024a; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.cf { color: #007ba5; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #a1024a; } /* Float */
-code span.fu { color: #4254a7; } /* Function */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #545454; font-weight: bold; } /* Information */
-code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
-code span.op { color: #696969; } /* Operator */
-code span.ot { color: #007faa; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #008000; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #008000; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #008000; } /* VerbatimString */
-code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #007ba5; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #007ba5; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #20794d; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
@@ -2013,7 +2011,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000-08:00","citationText":"Thuy, 2020"}
+{"title":"Description of the dataset","description":"Core features of the data, variable transformations, and data splitting process.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000+00:00","citationText":"Thuy, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2043,7 +2041,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1>Description of the dataset</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p><p>Core features of the data, variable transformations, and data splitting process.</p></p>
+<p>Core features of the data, variable transformations, and data splitting process.</p>
 </div>
 
 <div class="d-byline">
@@ -2056,13 +2054,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <h1 id="description-of-the-data">Description of the data</h1>
 <p>The original <code>training</code> dataset included 39 variables. We randomly sampled 7% of this dataset to reduce the total to 13,260 observations. To expand the number of predictors in our models, the following steps were taken:</p>
 <ol type="1">
-<li><p><code>FRL</code> (6 variables) and <code>student_count</code> (2 variables) imported and joined together by <code>ncessch</code> variable.</p></li>
+<li><code>FRL</code> (6 variables) and <code>student_count</code> (2 variables) imported and joined together by <code>ncessch</code> variable.</li>
 <li><p>Two variables created in the <code>FRL</code> dataset:</p>
 <ul>
 <li>proportion of students who qualify for free and reduced lunch</li>
 <li>proportion of students who qualify for reduced price lunch</li>
 </ul></li>
-<li><p><code>Ethnicities</code> data imported</p></li>
+<li><code>Ethnicities</code> data imported</li>
 <li><p>The original 7% sample of the <code>training</code> data was joined with the <code>FRL</code> and <code>Ethnicities</code> datasets to increase the total number of variables to 55 across `3,263 observations.</p></li>
 </ol>
 <h2 id="score-variable" class="tabset tabset-fade tabset-pills">Score Variable</h2>
@@ -2383,23 +2381,23 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>       id             gndr            ethnic_cd        
- Min.   :    22   Length:13263       Length:13263      
- 1st Qu.: 62804   Class :character   Class :character  
- Median :125333   Mode  :character   Mode  :character  
- Mean   :125772                                        
- 3rd Qu.:188416                                        
- Max.   :252568                                        
+ Min.   :    22   Length:13265       Length:13265      
+ 1st Qu.: 62812   Class :character   Class :character  
+ Median :125374   Mode  :character   Mode  :character  
+ Mean   :125786                                        
+ 3rd Qu.:188423                                        
+ Max.   :252555                                        
                                                        
  attnd_dist_inst_id attnd_schl_inst_id    enrl_grd     calc_admn_cd  
  Min.   :1894       Min.   :   1       Min.   :3.000   Mode:logical  
- 1st Qu.:2039       1st Qu.: 506       1st Qu.:4.000   NA&#39;s:13263    
- Median :2142       Median : 942       Median :5.000                 
- Mean   :2123       Mean   :1373       Mean   :5.471                 
+ 1st Qu.:2039       1st Qu.: 502       1st Qu.:4.000   NA&#39;s:13265    
+ Median :2142       Median : 941       Median :5.000                 
+ Mean   :2122       Mean   :1371       Mean   :5.471                 
  3rd Qu.:2190       3rd Qu.:1300       3rd Qu.:7.000                 
  Max.   :4131       Max.   :5392       Max.   :8.000                 
                                                                      
    tst_bnch            tst_dt          migrant_ed_fg     
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2407,7 +2405,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
   ind_ed_fg           sp_ed_fg          tag_ed_fg        
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2415,7 +2413,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  econ_dsvntg          ayp_lep          stay_in_dist      
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2423,7 +2421,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  stay_in_schl        dist_sped         trgt_assist_fg    
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2431,7 +2429,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  ayp_dist_partic    ayp_schl_partic    ayp_dist_prfrm    
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2439,7 +2437,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  ayp_schl_prfrm     rc_dist_partic     rc_schl_partic    
- Length:13263       Length:13263       Length:13263      
+ Length:13265       Length:13265       Length:13265      
  Class :character   Class :character   Class :character  
  Mode  :character   Mode  :character   Mode  :character  
                                                          
@@ -2447,23 +2445,23 @@ document.addEventListener('DOMContentLoaded', function() {
                                                          
                                                          
  rc_dist_prfrm      rc_schl_prfrm      partic_dist_inst_id
- Length:13263       Length:13263       Min.   :1894       
- Class :character   Class :character   1st Qu.:2041       
+ Length:13265       Length:13265       Min.   :1894       
+ Class :character   Class :character   1st Qu.:2039       
  Mode  :character   Mode  :character   Median :2142       
                                        Mean   :2124       
                                        3rd Qu.:2190       
                                        Max.   :4131       
-                                       NA&#39;s   :44         
+                                       NA&#39;s   :42         
  partic_schl_inst_id   lang_cd          tst_atmpt_fg      
- Min.   :   1        Length:13263       Length:13263      
- 1st Qu.: 506        Class :character   Class :character  
+ Min.   :   1        Length:13265       Length:13265      
+ 1st Qu.: 502        Class :character   Class :character  
  Median : 942        Mode  :character   Mode  :character  
- Mean   :1375                                             
+ Mean   :1374                                             
  3rd Qu.:1300                                             
  Max.   :5392                                             
- NA&#39;s   :44                                               
+ NA&#39;s   :42                                               
  grp_rpt_dist_partic grp_rpt_schl_partic grp_rpt_dist_prfrm
- Length:13263        Length:13263        Length:13263      
+ Length:13265        Length:13265        Length:13265      
  Class :character    Class :character    Class :character  
  Mode  :character    Mode  :character    Mode  :character  
                                                            
@@ -2471,69 +2469,69 @@ document.addEventListener('DOMContentLoaded', function() {
                                                            
                                                            
  grp_rpt_schl_prfrm     score         ncessch         
- Length:13263       Min.   :1821   Min.   :4.100e+11  
+ Length:13265       Min.   :1821   Min.   :4.100e+11  
  Class :character   1st Qu.:2420   1st Qu.:4.103e+11  
  Mode  :character   Median :2497   Median :4.108e+11  
                     Mean   :2498   Mean   :4.107e+11  
                     3rd Qu.:2575   3rd Qu.:4.111e+11  
                     Max.   :3550   Max.   :4.114e+11  
-                                   NA&#39;s   :202        
+                                   NA&#39;s   :200        
       lat             lon           sch_name        
- Min.   :42.01   Min.   :-124.5   Length:13263      
- 1st Qu.:44.25   1st Qu.:-123.0   Class :character  
+ Min.   :42.01   Min.   :-124.5   Length:13265      
+ 1st Qu.:44.23   1st Qu.:-123.0   Class :character  
  Median :45.27   Median :-122.8   Mode  :character  
- Mean   :44.79   Mean   :-122.5                     
+ Mean   :44.78   Mean   :-122.5                     
  3rd Qu.:45.50   3rd Qu.:-122.5                     
  Max.   :46.18   Max.   :-116.9                     
- NA&#39;s   :218     NA&#39;s   :218                        
+ NA&#39;s   :217     NA&#39;s   :217                        
  p_american_indian_alaska_native    p_asian       
  Min.   :0.00000                 Min.   :0.00000  
  1st Qu.:0.00265                 1st Qu.:0.00551  
- Median :0.00583                 Median :0.01375  
- Mean   :0.01227                 Mean   :0.03919  
- 3rd Qu.:0.01174                 3rd Qu.:0.03846  
+ Median :0.00585                 Median :0.01370  
+ Mean   :0.01228                 Mean   :0.03923  
+ 3rd Qu.:0.01174                 3rd Qu.:0.03860  
  Max.   :0.88284                 Max.   :0.61931  
  NA&#39;s   :10                      NA&#39;s   :10       
  p_native_hawaiian_pacific_islander p_black_african_american
  Min.   :0.000000                   Min.   :0.00000         
  1st Qu.:0.000000                   1st Qu.:0.00371         
- Median :0.003540                   Median :0.00926         
- Mean   :0.007837                   Mean   :0.02188         
- 3rd Qu.:0.009500                   3rd Qu.:0.02116         
+ Median :0.003520                   Median :0.00922         
+ Mean   :0.007799                   Mean   :0.02182         
+ 3rd Qu.:0.009450                   3rd Qu.:0.02116         
  Max.   :0.083800                   Max.   :0.49846         
  NA&#39;s   :10                         NA&#39;s   :10              
  p_hispanic_latino    p_white       p_multiracial    
  Min.   :0.0000    Min.   :0.0000   Min.   :0.00000  
- 1st Qu.:0.1008    1st Qu.:0.4533   1st Qu.:0.04474  
- Median :0.1850    Median :0.6538   Median :0.06673  
- Mean   :0.2439    Mean   :0.6069   Mean   :0.06680  
- 3rd Qu.:0.3299    3rd Qu.:0.7734   3rd Qu.:0.08472  
+ 1st Qu.:0.1008    1st Qu.:0.4533   1st Qu.:0.04481  
+ Median :0.1847    Median :0.6542   Median :0.06667  
+ Mean   :0.2438    Mean   :0.6070   Mean   :0.06682  
+ 3rd Qu.:0.3289    3rd Qu.:0.7734   3rd Qu.:0.08472  
  Max.   :1.0000    Max.   :1.0000   Max.   :0.35088  
  NA&#39;s   :10        NA&#39;s   :10       NA&#39;s   :10       
  free_lunch_qualified reduced_price_lunch_qualified    missing   
  Min.   :  0.0        Min.   :  0.00                Min.   :0    
  1st Qu.:122.0        1st Qu.: 22.00                1st Qu.:0    
- Median :211.0        Median : 36.00                Median :0    
- Mean   :228.6        Mean   : 39.57                Mean   :0    
+ Median :210.0        Median : 36.00                Median :0    
+ Mean   :228.4        Mean   : 39.59                Mean   :0    
  3rd Qu.:309.0        3rd Qu.: 52.00                3rd Qu.:0    
  Max.   :813.0        Max.   :132.00                Max.   :0    
- NA&#39;s   :202          NA&#39;s   :202                   NA&#39;s   :202  
+ NA&#39;s   :200          NA&#39;s   :200                   NA&#39;s   :200  
  not_applicable no_category_codes       n             prop_frl     
- Min.   :0      Min.   :  0.0     Min.   :  12.0   Min.   :0.0000  
- 1st Qu.:0      1st Qu.:152.0     1st Qu.: 420.0   1st Qu.:0.1916  
- Median :0      Median :248.0     Median : 599.0   Median :0.2921  
- Mean   :0      Mean   :268.2     Mean   : 807.3   Mean   :0.3562  
- 3rd Qu.:0      3rd Qu.:357.0     3rd Qu.:1165.0   3rd Qu.:0.4918  
- Max.   :0      Max.   :920.0     Max.   :3144.0   Max.   :4.3823  
- NA&#39;s   :202    NA&#39;s   :202       NA&#39;s   :202      NA&#39;s   :202     
+ Min.   :0      Min.   :  0       Min.   :  12.0   Min.   :0.0000  
+ 1st Qu.:0      1st Qu.:152       1st Qu.: 420.0   1st Qu.:0.1916  
+ Median :0      Median :247       Median : 601.0   Median :0.2921  
+ Mean   :0      Mean   :268       Mean   : 807.4   Mean   :0.3557  
+ 3rd Qu.:0      3rd Qu.:357       3rd Qu.:1165.0   3rd Qu.:0.4897  
+ Max.   :0      Max.   :920       Max.   :3144.0   Max.   :3.9167  
+ NA&#39;s   :200    NA&#39;s   :200       NA&#39;s   :200      NA&#39;s   :200     
  prop_reduced_lunch
  Min.   :0.00000   
  1st Qu.:0.03633   
  Median :0.05385   
- Mean   :0.06072   
+ Mean   :0.06084   
  3rd Qu.:0.07481   
  Max.   :1.20833   
- NA&#39;s   :202       </code></pre>
+ NA&#39;s   :200       </code></pre>
 </div>
 <h2 id="split-and-resample">Split and Resample</h2>
 <p>The code chunk below details on the training data was split and resampled with k-fold cross validation to generate all three models.</p>
@@ -2566,7 +2564,7 @@ Inputs:
    outcome          1
  predictor         48
 
-Training data contained 9949 data points and 9949 incomplete rows. 
+Training data contained 9950 data points and 9950 incomplete rows. 
 
 Operations:
 
@@ -2578,20 +2576,20 @@ Median Imputation for enrl_grd, tst_dt, lat, ... [trained]
 Dummy variables from gndr, ethnic_cd, tst_bnch, sp_ed_fg, ... [trained]
 Sparse, unbalanced variable filter removed gndr_new, ... [trained]
 Interactions with lat:lon [trained]</code></pre>
-<pre><code># A tibble: 9,949 x 37
+<pre><code># A tibble: 9,950 x 37
        id attnd_dist_inst… attnd_schl_inst… enrl_grd tst_dt
     &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
- 1 188408             1970              219        3 1.52e9
- 2 226880             2252             1208        4 1.53e9
- 3   3436             2243             1176        5 1.53e9
- 4  48828             2043              390        4 1.52e9
- 5 252482             2087              574        3 1.53e9
- 6 226888             1922             1287        8 1.53e9
- 7  70637             2197             1012        6 1.53e9
- 8 170356             2239             4641        4 1.53e9
- 9 158918             2142              763        3 1.53e9
-10 185543             2142              754        4 1.53e9
-# … with 9,939 more rows, and 32 more variables:
+ 1 207039             2043              390        3 1.52e9
+ 2 129823             2206             1038        5 1.53e9
+ 3  45014             1991              278        6 1.53e9
+ 4 211101             1976             3218        3 1.53e9
+ 5 188408             1970              219        3 1.52e9
+ 6 211935             2094              603        3 1.52e9
+ 7  56536             2243             2782        7 1.53e9
+ 8 105175             2142              770        6 1.53e9
+ 9 226880             2252             1208        4 1.53e9
+10   3436             2243             1176        5 1.53e9
+# … with 9,940 more rows, and 32 more variables:
 #   partic_dist_inst_id &lt;dbl&gt;, partic_schl_inst_id &lt;dbl&gt;,
 #   ncessch &lt;dbl&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;,
 #   p_american_indian_alaska_native &lt;dbl&gt;, p_asian &lt;dbl&gt;,
