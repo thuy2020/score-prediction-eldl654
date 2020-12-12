@@ -20,18 +20,19 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -51,41 +52,41 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ad0000; } /* Alert */
-code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
-code span.bn { color: #ad0000; } /* BaseN */
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #545454; font-weight: bold; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #a1024a; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
-code span.ch { color: #20794d; } /* Char */
-code span.cn { color: #8f5902; } /* Constant */
-code span.co { color: #5e5e5e; } /* Comment */
-code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
-code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
-code span.dt { color: #ad0000; } /* DataType */
-code span.dv { color: #ad0000; } /* DecVal */
-code span.er { color: #ad0000; } /* Error */
+code span.cf { color: #007faa; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #008000; } /* Char */
+code span.cn { color: #d91e18; } /* Constant */
+code span.co { color: #545454; } /* Comment */
+code span.cv { color: #545454; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #aa5d00; } /* DataType */
+code span.dv { color: #a1024a; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
-code span.fl { color: #ad0000; } /* Float */
-code span.fu { color: #4758ab; } /* Function */
+code span.fl { color: #a1024a; } /* Float */
+code span.fu { color: #4254a7; } /* Function */
 code span.im { } /* Import */
-code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
-code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
-code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
-code span.ss { color: #20794d; } /* SpecialString */
-code span.st { color: #20794d; } /* String */
-code span.va { color: #111111; } /* Variable */
-code span.vs { color: #20794d; } /* VerbatimString */
-code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+code span.in { color: #545454; font-weight: bold; } /* Information */
+code span.kw { color: #007faa; font-weight: bold; } /* Keyword */
+code span.op { color: #696969; } /* Operator */
+code span.ot { color: #007faa; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #008000; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #008000; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #008000; } /* VerbatimString */
+code span.wa { color: #545454; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
   <!--radix_placeholder_meta_tags-->
-<title>My Blog: Three models</title>
+<title>Score prediction: Three models</title>
 
 <meta property="description" itemprop="description" content="Three models: fitting procedures and the results of model evaluation."/>
 
@@ -96,15 +97,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta name="article:author" content="Jim - Claire - Thuy"/>
 
 <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-<meta property="og:title" content="My Blog: Three models"/>
+<meta property="og:title" content="Score prediction: Three models"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Three models: fitting procedures and the results of model evaluation."/>
 <meta property="og:locale" content="en_US"/>
-<meta property="og:site_name" content="My Blog"/>
+<meta property="og:site_name" content="Score prediction"/>
 
 <!--  https://dev.twitter.com/cards/types/summary -->
 <meta property="twitter:card" content="summary"/>
-<meta property="twitter:title" content="My Blog: Three models"/>
+<meta property="twitter:title" content="Score prediction: Three models"/>
 <meta property="twitter:description" content="Three models: fitting procedures and the results of model evaluation."/>
 
 <!--/radix_placeholder_meta_tags-->
@@ -116,7 +117,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["three-models_files/figure-html5/unnamed-chunk-4-1.png","three-models_files/figure-html5/unnamed-chunk-4-2.png","three-models_files/figure-html5/unnamed-chunk-5-1.png"]}
+  {"type":"character","attributes":{},"value":["three-models_files/anchor-4.2.2/anchor.min.js","three-models_files/bowser-1.9.3/bowser.min.js","three-models_files/distill-2.2.21/template.v2.js","three-models_files/figure-html5/unnamed-chunk-2-1.png","three-models_files/figure-html5/unnamed-chunk-4-1.png","three-models_files/figure-html5/unnamed-chunk-4-2.png","three-models_files/figure-html5/unnamed-chunk-5-1.png","three-models_files/header-attrs-2.5/header-attrs.js","three-models_files/jquery-1.11.3/jquery.min.js","three-models_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -1996,7 +1997,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.5/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/anchor-4.2.2/anchor.min.js"></script>
   <script src="../../site_libs/bowser-1.9.3/bowser.min.js"></script>
@@ -2013,7 +2013,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Three models","description":"Three models: fitting procedures and the results of model evaluation.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000+00:00","citationText":"Thuy, 2020"}
+{"title":"Three models","description":"Three models: fitting procedures and the results of model evaluation.","authors":[{"author":"Jim - Claire - Thuy","authorURL":"https://www.uoregon.edu/","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2020-12-04T00:00:00.000-08:00","citationText":"Thuy, 2020"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -2021,12 +2021,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <header class="header header--fixed" role="banner">
 <nav class="distill-site-nav distill-site-header">
 <div class="nav-left">
-<a href="../../index.html" class="title">My Blog</a>
+<a href="../../index.html" class="title">Score prediction</a>
 <input id="distill-search" class="nav-search hidden" type="text" placeholder="Search..."/>
 </div>
 <div class="nav-right">
 <a href="../../index.html">Home</a>
 <a href="../../about.html">About</a>
+<a href="../../contributors.html">Contributors</a>
+<a href="../../index.xml">
+<i class="fa fa-rss" aria-hidden="true"></i>
+</a>
 <a href="javascript:void(0);" class="nav-toggle">&#9776;</a>
 </div>
 </nav>
@@ -2049,130 +2053,252 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 <div class="d-article">
-<div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 6 x 47
-      id gndr  ethnic_cd attnd_dist_inst_id attnd_schl_inst_id
-   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;                  &lt;dbl&gt;              &lt;dbl&gt;
-1 188408 M     W                       1970                219
-2 211935 F     W                       2094                603
-3  56536 F     A                       2243               2782
-4 105175 F     W                       2142                770
-5 226880 M     W                       2252               1208
-6   3436 M     W                       2243               1176
-# … with 42 more variables: enrl_grd &lt;dbl&gt;, calc_admn_cd &lt;lgl&gt;,
-#   tst_bnch &lt;chr&gt;, tst_dt &lt;chr&gt;, migrant_ed_fg &lt;chr&gt;,
-#   ind_ed_fg &lt;chr&gt;, sp_ed_fg &lt;chr&gt;, tag_ed_fg &lt;chr&gt;,
-#   econ_dsvntg &lt;chr&gt;, ayp_lep &lt;chr&gt;, stay_in_dist &lt;chr&gt;,
-#   stay_in_schl &lt;chr&gt;, dist_sped &lt;chr&gt;, trgt_assist_fg &lt;chr&gt;,
-#   ayp_dist_partic &lt;chr&gt;, ayp_schl_partic &lt;chr&gt;,
-#   ayp_dist_prfrm &lt;chr&gt;, ayp_schl_prfrm &lt;chr&gt;, rc_dist_partic &lt;chr&gt;,
-#   rc_schl_partic &lt;chr&gt;, rc_dist_prfrm &lt;chr&gt;, rc_schl_prfrm &lt;chr&gt;,
-#   partic_dist_inst_id &lt;dbl&gt;, partic_schl_inst_id &lt;dbl&gt;,
-#   lang_cd &lt;chr&gt;, tst_atmpt_fg &lt;chr&gt;, grp_rpt_dist_partic &lt;chr&gt;,
-#   grp_rpt_schl_partic &lt;chr&gt;, grp_rpt_dist_prfrm &lt;chr&gt;,
-#   grp_rpt_schl_prfrm &lt;chr&gt;, score &lt;dbl&gt;, ncessch &lt;dbl&gt;, lat &lt;dbl&gt;,
-#   lon &lt;dbl&gt;, sch_name &lt;chr&gt;, p_american_indian_alaska_native &lt;dbl&gt;,
-#   p_asian &lt;dbl&gt;, p_native_hawaiian_pacific_islander &lt;dbl&gt;,
-#   p_black_african_american &lt;dbl&gt;, p_hispanic_latino &lt;dbl&gt;,
-#   p_white &lt;dbl&gt;, p_multiracial &lt;dbl&gt;</code></pre>
-</div>
-<h1 id="split-and-resample">Split and Resample</h1>
+<h2 id="data">Data</h2>
+<h2 id="split-and-resample">Split and Resample</h2>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
+<h2 id="recipe">Recipe</h2>
 <div class="layout-chunk" data-layout="l-body">
 <pre><code>Data Recipe
 
 Inputs:
 
       role #variables
-        id          7
+   id vars          6
    outcome          1
- predictor         39
+ predictor         48
 
-Training data contained 1422 data points and 1422 incomplete rows. 
+Training data contained 9949 data points and 9949 incomplete rows. 
 
 Operations:
 
 Variable mutation for tst_dt [trained]
 Novel factor level assignment for gndr, ethnic_cd, ... [trained]
 Unknown factor level assignment for gndr, ethnic_cd, ... [trained]
-Median Imputation for id, ... [trained]
-Sparse, unbalanced variable filter removed calc_admn_cd [trained]
-Dummy variables from gndr, ethnic_cd, tst_bnch, ... [trained]
-Sparse, unbalanced variable filter removed gndr_new, ... [trained]</code></pre>
+Sparse, unbalanced variable filter removed calc_admn_cd, ... [trained]
+Median Imputation for enrl_grd, tst_dt, lat, ... [trained]
+Dummy variables from gndr, ethnic_cd, tst_bnch, sp_ed_fg, ... [trained]
+Sparse, unbalanced variable filter removed gndr_new, ... [trained]
+Interactions with lat:lon [trained]</code></pre>
+<pre><code># A tibble: 9,949 x 37
+       id attnd_dist_inst… attnd_schl_inst… enrl_grd tst_dt
+    &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+ 1 188408             1970              219        3 1.52e9
+ 2 226880             2252             1208        4 1.53e9
+ 3   3436             2243             1176        5 1.53e9
+ 4  48828             2043              390        4 1.52e9
+ 5 252482             2087              574        3 1.53e9
+ 6 226888             1922             1287        8 1.53e9
+ 7  70637             2197             1012        6 1.53e9
+ 8 170356             2239             4641        4 1.53e9
+ 9 158918             2142              763        3 1.53e9
+10 185543             2142              754        4 1.53e9
+# … with 9,939 more rows, and 32 more variables:
+#   partic_dist_inst_id &lt;dbl&gt;, partic_schl_inst_id &lt;dbl&gt;,
+#   ncessch &lt;dbl&gt;, lat &lt;dbl&gt;, lon &lt;dbl&gt;,
+#   p_american_indian_alaska_native &lt;dbl&gt;, p_asian &lt;dbl&gt;,
+#   p_hispanic_latino &lt;dbl&gt;, p_white &lt;dbl&gt;, p_multiracial &lt;dbl&gt;,
+#   free_lunch_qualified &lt;dbl&gt;, reduced_price_lunch_qualified &lt;dbl&gt;,
+#   no_category_codes &lt;dbl&gt;, n &lt;int&gt;, prop_frl &lt;dbl&gt;,
+#   prop_reduced_lunch &lt;dbl&gt;, score &lt;dbl&gt;, gndr_M &lt;dbl&gt;,
+#   ethnic_cd_H &lt;dbl&gt;, ethnic_cd_M &lt;dbl&gt;, ethnic_cd_W &lt;dbl&gt;,
+#   tst_bnch_X2B &lt;dbl&gt;, tst_bnch_X3B &lt;dbl&gt;, tst_bnch_G4 &lt;dbl&gt;,
+#   tst_bnch_G6 &lt;dbl&gt;, tst_bnch_G7 &lt;dbl&gt;, sp_ed_fg_Y &lt;dbl&gt;,
+#   tag_ed_fg_Y &lt;dbl&gt;, econ_dsvntg_Y &lt;dbl&gt;, ayp_lep_F &lt;dbl&gt;,
+#   ayp_lep_unknown &lt;dbl&gt;, lat_x_lon &lt;dbl&gt;</code></pre>
 </div>
-<h1 id="model-1-decision-tree">Model 1: Decision tree</h1>
+<h2 id="model-1-linear-model">Model 1: Linear Model</h2>
+<h3 id="rationale-for-selecting-a-linear-model">Rationale for Selecting a Linear Model</h3>
+<p>Linear models assume a normal distribution within the data it is applied to. As demonstrated in the histogram, the score variable displays a normal distribution, which suggests a linear model can be fit to the data with both low variance and low bias.</p>
 <div class="layout-chunk" data-layout="l-body">
-<pre><code>186.323 sec elapsed</code></pre>
+<p><img src="three-models_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<h3 id="model-construction">Model Construction</h3>
+<p>The three linear models presented in the course represent penalized regression models, which shrink the coefficients towards zero in order to reduce the model’s overall variance.</p>
+<ol type="1">
+<li>Ridge Regression Model: Shrinks coefficients of correlated predictors toward each other, which is beneficial when the purpose of the model is to keep all predictors.</li>
+<li>Lasso Regression Model: Selects one predictor to model the outcome while ignoring other predictors, which is beneficial to identifying the largest and most consistent predictor in data with may predictors.</li>
+<li>Elastic Net Regression Model: Combines the two types of penalties, which is better suited for multicollinearity.</li>
+</ol>
+<p>Instead of selecting one of the specific penalties to run our linear model, we opted to use cross-validation to find the optimal tuning parameters with a grid search. We specifically tuned the penalty and mixture parameters of the linear model. Our grid search utilized a regular grid with 10 possible values for the penalty and 5 possible values for the mixture, which produced 50 models per fold, resulting in a total of 500 models.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>74.062 sec elapsed</code></pre>
+<pre><code># A tibble: 100 x 8
+       penalty mixture .metric .estimator   mean     n std_err .config
+         &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+ 1    1.00e-10       0 rmse    standard   90.4      10 0.655   Model01
+ 2    1.00e-10       0 rsq     standard    0.402    10 0.00692 Model01
+ 3    1.29e- 9       0 rmse    standard   90.4      10 0.655   Model02
+ 4    1.29e- 9       0 rsq     standard    0.402    10 0.00692 Model02
+ 5    1.67e- 8       0 rmse    standard   90.4      10 0.655   Model03
+ 6    1.67e- 8       0 rsq     standard    0.402    10 0.00692 Model03
+ 7    2.15e- 7       0 rmse    standard   90.4      10 0.655   Model04
+ 8    2.15e- 7       0 rsq     standard    0.402    10 0.00692 Model04
+ 9    2.78e- 6       0 rmse    standard   90.4      10 0.655   Model05
+10    2.78e- 6       0 rsq     standard    0.402    10 0.00692 Model05
+# … with 90 more rows</code></pre>
+<pre><code># A tibble: 1 x 8
+       penalty mixture .metric .estimator  mean     n std_err .config
+         &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1 0.0000000001     0.5 rmse    standard    90.4    10   0.656 Model21</code></pre>
+</div>
+<h3 id="evaluation-of-the-model">Evaluation of the Model</h3>
+<p>The specific metric used to evaluate model performance was the RMSE. Utilzing the <code>show_best()</code> function, we isolated the best performing model, which obtained a RMSE value of approximately 90.5. As we randomly sampled 7% of the data, consecutive runs of the model generated RMSE values ranging from 90.4 - 90.6. Of note, initial iterations of the linear regression model were run exclusively on the combined <em>FRL</em> and training data, which resulted in a RMSE value of ~96.0. Expanding the data set to include the <em>ethnicities</em> and <em>ode_schools</em> and adding the interaction of <code>lat</code> and <code>lon</code> to the recipe decreased the RMSE to ~90.5. The strength of the linear model is likely a direct result of the normal distribution of the data it was applied to.</p>
+<h2 id="model-2-decision-tree">Model 2: Decision tree</h2>
+<h3 id="rationale-for-selecting-a-decision-tree">Rationale for Selecting a Decision Tree</h3>
+<p>While decision trees are not as complex as other modeling techniques, they do provide a foundation for more complex models, such as a random forest, which was the technique selected for our third model. As a non-parametric model, decision trees do not make any assumptions about the data, which is a positive feature in situations where it is challenging to assume a data distribution. As we randomly sampled 7% of the data, we cannot truly conclude that the <code>score</code> variable represents a true normal distribution. Therefore, a decision tree model provides a sensitive method to model the data to generalize to the complete data set in the case a normal distribution does not exist.</p>
+<h3 id="model-construction-1">Model Construction</h3>
+<p>To construct our decision tree model, we first tuned two of the three decision tree hyperparameters. Specifically, we tuned the <code>cost_complexity</code> and <code>min_n</code> hyperparameters to allow them to control the depth of the tree. Second, we utilized a regular grid with 10 possible values for the cost complexity and 5 possible values for the minimum <em>n</em>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>688.82 sec elapsed</code></pre>
 <p><img src="three-models_files/figure-html5/unnamed-chunk-4-1.png" width="624" /><img src="three-models_files/figure-html5/unnamed-chunk-4-2.png" width="624" /></p>
-</div>
-<p>This plot shows that the lowest rmse is resulted from a combation of cost_complexity = 0.01 and min_n = 30</p>
-<div class="layout-chunk" data-layout="l-body">
-<p><img src="three-models_files/figure-html5/unnamed-chunk-5-1.png" width="624" /></p>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 2 x 3
-  .metric .estimator  .estimate
-  &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;
-1 rmse    standard   93.87151  
-2 rsq     standard    0.3334588</code></pre>
-</div>
-<h1 id="model-2-bagged-tree">Model 2: Bagged Tree</h1>
-<h2 id="model-and-workflow">Model and Workflow</h2>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>126.14 sec elapsed</code></pre>
-<pre><code># A tibble: 1 x 3
-  cost_complexity min_n .config
-            &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;  
-1     3.799405e-9    40 Model03</code></pre>
-</div>
-Finalize model 2
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-Test fit model 2
-<div class="layout-chunk" data-layout="l-body">
-<pre><code># A tibble: 2 x 3
-  .metric .estimator  .estimate
-  &lt;chr&gt;   &lt;chr&gt;           &lt;dbl&gt;
-1 rmse    standard   90.51122  
-2 rsq     standard    0.3792620</code></pre>
-</div>
-<h1 id="model-3-random-forest">Model 3: Random Forest</h1>
-<div class="layout-chunk" data-layout="l-body">
-
-</div>
-<h2 id="fit">Fit</h2>
-<div class="layout-chunk" data-layout="l-body">
-<pre><code>77.755 sec elapsed</code></pre>
 <pre><code># A tibble: 5 x 8
-   mtry min_n .metric .estimator     mean     n  std_err .config
-  &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;int&gt;    &lt;dbl&gt; &lt;chr&gt;  
-1     5    40 rmse    standard   97.16578    10 2.510782 Model05
-2     7    20 rmse    standard   97.22601    10 2.559736 Model10
-3    13    30 rmse    standard   97.63473    10 2.582564 Model01
-4    10    13 rmse    standard   97.97205    10 2.553483 Model06
-5    18    33 rmse    standard   98.09771    10 2.570876 Model02</code></pre>
+  cost_complexity min_n .metric .estimator  mean     n std_err .config
+            &lt;dbl&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1           0.001    40 rmse    standard    92.5    10   0.601 Model48
+2           0.001    30 rmse    standard    92.6    10   0.632 Model38
+3           0.001    21 rmse    standard    92.7    10   0.642 Model28
+4           0.001    11 rmse    standard    92.8    10   0.619 Model18
+5           0.001     2 rmse    standard    94.0    10   1.14  Model08</code></pre>
+<pre><code>396.967 sec elapsed</code></pre>
+<pre><code># A tibble: 1 x 7
+  min_n .metric .estimator  mean     n std_err .config
+  &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1    35 rmse    standard    92.5    10   0.593 Model26</code></pre>
 </div>
-<h1 id="make-predictions">Make Predictions</h1>
+<h3 id="finalize-the-decision-tree-model">Finalize the Decision Tree Model</h3>
 <div class="layout-chunk" data-layout="l-body">
+<pre><code>Decision Tree Model Specification (regression)
 
+Main Arguments:
+  cost_complexity = 0.001
+  min_n = 35
+
+Computational engine: rpart </code></pre>
+<pre><code># Resampling results
+# Monte Carlo cross-validation (0.75/0.25) with 1 resamples  
+# A tibble: 1 x 6
+  splits      id        .metrics    .notes    .predictions   .workflow
+  &lt;list&gt;      &lt;chr&gt;     &lt;list&gt;      &lt;list&gt;    &lt;list&gt;         &lt;list&gt;   
+1 &lt;split [9.… train/te… &lt;tibble [2… &lt;tibble … &lt;tibble [3,31… &lt;workflo…</code></pre>
+<pre><code># A tibble: 2 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard      91.1  
+2 rsq     standard       0.365</code></pre>
+<pre><code># A tibble: 3,314 x 3
+   .pred  .row score
+   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;
+ 1 2463.     2  2382
+ 2 2711.     3  2533
+ 3 2556.     4  2641
+ 4 2580.    11  2429
+ 5 2463.    18  2390
+ 6 2403.    27  2246
+ 7 2628.    29  2680
+ 8 2580.    37  2625
+ 9 2383.    41  2366
+10 2628.    42  2592
+# … with 3,304 more rows</code></pre>
 </div>
-<h2 id="apply-fit-function-to-workflow-and-full-training">Apply Fit Function to Workflow and Full Training</h2>
+<h3 id="evaluation-of-the-model-1">Evaluation of the Model</h3>
+<p>After running the model, we ran <code>collect_metrics()</code> to evaluate the value of the RMSE and created a scatter plot to visualize the relationship between the mean RMSE values and cost_complexity values. The <code>show_best()</code> function revealed that the best RMSE values of the model ranged from 92.3-92.8. To reduce the value of the RMSE, we tuned our grid to limit the range of the min_n value from 10 to 40 and set the cost complexity to equal 0.001. After running the model with the updated tuned grid, the RMSE was slightly reduced to 92.29.</p>
+<h2 id="model-3-random-forest">Model 3: Random Forest</h2>
+<h3 id="rationale-for-selecting-a-random-forest">Rationale for Selecting a Random Forest</h3>
+<p>Random forests provide very strong “out of the box” model performance. Additionally, with a wide variety of predictive variables, random forests are adept to isolating the unique features of the data because a random selection of features is included in each split, which helps decorrelate the trees.</p>
+<h3 id="model-construction-2">Model Construction</h3>
+<p>To construct our random forest model in which the model was evaluated using OOB samples, the following steps were taken:</p>
+<ol type="1">
+<li>We ran a default random forest model, which generated a RMSE value of 92.7</li>
+<li>We then ran a tuned random forest model, specifically tuning the <code>mtry</code> and <code>min_n</code> hyperparameters. The number of trees was set to 1000, and tune was set to 10.</li>
+</ol>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre><code>[1] 8</code></pre>
+<pre><code>90.905 sec elapsed</code></pre>
+<pre><code># A tibble: 1 x 5
+  .metric .estimator  mean     n std_err
+  &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt;
+1 rmse    standard    92.7    10   0.670</code></pre>
 </div>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre><code>912.076 sec elapsed</code></pre>
+<pre><code># A tibble: 5 x 8
+   mtry min_n .metric .estimator  mean     n std_err .config
+  &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;dbl&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  
+1     6    40 rmse    standard    90.2    10   0.617 Model05
+2     8    20 rmse    standard    91.1    10   0.605 Model10
+3    16    30 rmse    standard    91.2    10   0.586 Model01
+4    21    33 rmse    standard    91.3    10   0.582 Model02
+5    25    25 rmse    standard    92.0    10   0.598 Model08</code></pre>
 </div>
+<h3 id="evaluation-of-the-model-2">Evaluation of the Model</h3>
+<p>The tuned random forest model yielded the best RMSE value of any model evaluated for our project. Dependent upon the random sample, the obtained RMSE ranged from 89.90 to 90.2.</p>
+<h2 id="finalize-model">Finalize Model</h2>
+<p>The tuned random forest model generated the lowest RMSE value; therefore, it was determined to be the strongest model of all models evaluated for the project. To finalize this model, the following steps were taken:</p>
+<ol type="1">
+<li>Create a workflow with the tuned random forest model and recipe used in all models for the project.</li>
+<li>Select the best model from the tuned random forest model.</li>
+<li>Fit the model to the initial data split.</li>
+</ol>
 <div class="layout-chunk" data-layout="l-body">
+<pre><code>══ Workflow ══════════════════════════════════════════════════════════
+Preprocessor: Recipe
+Model: rand_forest()
 
+── Preprocessor ──────────────────────────────────────────────────────
+8 Recipe Steps
+
+● step_mutate()
+● step_novel()
+● step_unknown()
+● step_nzv()
+● step_medianimpute()
+● step_dummy()
+● step_nzv()
+● step_interact()
+
+── Model ─────────────────────────────────────────────────────────────
+Random Forest Model Specification (regression)
+
+Main Arguments:
+  mtry = 6
+  trees = 1000
+  min_n = 40
+
+Engine-Specific Arguments:
+  num.threads = cores
+  importance = permutation
+  verbose = TRUE
+
+Computational engine: ranger </code></pre>
+<pre><code>11.571 sec elapsed</code></pre>
+<pre><code>[[1]]
+# A tibble: 2 x 3
+  .metric .estimator .estimate
+  &lt;chr&gt;   &lt;chr&gt;          &lt;dbl&gt;
+1 rmse    standard      88.7  
+2 rsq     standard       0.399</code></pre>
 </div>
+<h2 id="make-final-predictions">Make Final Predictions</h2>
+<p>To generate final predictions, the finalized random forest workflow was fit to the training data (note: the trained data set was joined with the FRL and ethnicities data sets as outlined in the data description blog post).The ensuing fit was then applied to the test data set to generate final predictions.</p>
 <div class="layout-chunk" data-layout="l-body">
-
+<pre><code># A tibble: 3,314 x 1
+   .pred
+   &lt;dbl&gt;
+ 1 2455.
+ 2 2712.
+ 3 2569.
+ 4 2574.
+ 5 2454.
+ 6 2446.
+ 7 2599.
+ 8 2588.
+ 9 2403.
+10 2555.
+# … with 3,304 more rows</code></pre>
 </div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

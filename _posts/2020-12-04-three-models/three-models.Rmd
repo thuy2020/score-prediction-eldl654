@@ -359,7 +359,7 @@ rf_tune_workflow <-
 
 rf_best <- select_best(rf_tune_res, metric = "rmse")
 
-<<<<<<< Updated upstream
+
 rf_wf_final <- finalize_workflow(
   rf_tune_workflow,
   rf_best
@@ -374,27 +374,8 @@ rf_res_final <- last_fit(rf_wf_final,
 tictoc::toc()
 
 rf_res_final[[3]] # 89.8819913	
-=======
-rf_mod_final <- rf_tune_mod %>% 
-  finalize_model(rf_best)
 
-rf_rec_final <- rec %>% 
-  finalize_recipe(rf_best)
 
-c1 <- makeCluster(8)
-registerDoParallel(c1)
-
-tictoc::tic()
-set.seed(3000)
-rf_res_final <- last_fit(rf_mod_final,
-                         rf_rec_final,
-                         split = data_split)
-tictoc::toc()
-
-stopCluster(c1)
-rf_res_final
-
->>>>>>> Stashed changes
 ```
 
 ## Make Final Predictions 
